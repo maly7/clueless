@@ -13,5 +13,11 @@
     "jade": "~1.11.0",
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-install": "^0.6.0",
+    "gulp-live-server": "0.0.30",
+    "gulp-watch": "^4.3.11"
   }
 }
