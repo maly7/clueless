@@ -8,15 +8,15 @@ gulp.task('npm-install', function () {
         .pipe(install());
 });
 
-gulp.task('server', function() {
+gulp.task('server', function () {
     var server = gls.new('bin/www');
     server.start();
 
-    gulp.watch(['public/**/*.css', 'views/**/*.html', 'views/**/*.jade'], function (file) {
-      server.notify.apply(server, [file]);
-    });
+    gulp.watch(['public/**/*.css',  'views/**/*.html', 'views/**/*.jade'],  function  (file)  {      
+        server.notify.apply(server,   [file]);    
+    });
 
-    gulp.watch(['app.js', 'src/**/*.js', 'routes/**/*.js', 'bin/www'], function() {
+    gulp.watch(['app.js', 'src/**/*.js', 'routes/**/*.js', 'bin/www'], function () {
         server.start.bind(server)();
     });
 });
