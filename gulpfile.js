@@ -20,3 +20,5 @@ gulp.task('server', function() {
         server.start.bind(server)();
     });
 });
+
+gulp.task('default', ['npm-install', 'server']);
