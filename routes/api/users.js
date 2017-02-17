@@ -1,14 +1,14 @@
 var router = require('express').Router();
-var userController = require('../../src/js/users/UserController')();
+var userService = require('../../src/js/users/UserService')();
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
-router.get('/:id', function(req, res) {
+router.get('/:id', function (req, res) {
   var id = req.params.id;
-  userController.get(id);
+  userService.getUser(id);
   res.send('requested user with id: ' + id);
 });
 

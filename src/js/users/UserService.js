@@ -7,5 +7,5 @@ module.exports = function () {
 
     return {
         getUser: getUser
-    }
+    };
 };
