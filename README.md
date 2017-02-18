@@ -4,3 +4,10 @@
 2. Run `npm install -g gulp`
 3. From root of repository run `npm install`
 4. To start the server run `gulp`
+
+
+## Recommended IDEs
+* Visual Studio Code
+* Visual Studio
+* IntelliJ IDEA (or WebStorm)
+* Sublme Text
