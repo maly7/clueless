@@ -3,5 +3,10 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap.css')
   body
-    block content
+    nav(class='navbar navbar-default navbar-fixed-top')
+      div(class='container-fluid')
+        div(class='navbar-header')
+          p(class='navbar-brand') #{title}
+  block content
