@@ -1,14 +1,18 @@
-module.exports = function () {
+(function () {
     'use strict';
 
-    function getUser(id) {
-        console.log('get user function called with id: ' + id);
-        return {
-            id: id
-        };
-    }
+    var userService = function () {
+        function getUser(id) {
+            console.log('get user function called with id: ' + id);
+            return {
+                id: id
+            };
+        }
 
-    return {
-        getUser: getUser
+        return {
+            getUser: getUser
+        };
     };
-};
+
+    module.exports = userService();
+}());

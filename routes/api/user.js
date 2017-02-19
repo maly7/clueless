@@ -1,5 +1,5 @@
 var router = require('express').Router();
-var userService = require('../../src/js/user/UserService')();
+var userService = require('../../src/js/user/UserService');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {

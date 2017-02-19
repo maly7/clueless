@@ -1,5 +1,5 @@
 describe('UserService', function () {
-    var userService = require('./UserService')();
+    var userService = require('./UserService');
 
     describe('getUser', function () {
         it('should return a new user with the specified id', function () {
