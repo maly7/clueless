@@ -10,6 +10,7 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.0",
     "express": "~4.14.1",
+    "gulp-jasmine": "^2.4.2",
     "jade": "~1.11.0",
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.2",
@@ -20,6 +21,8 @@
     "gulp-install": "^0.6.0",
     "gulp-live-server": "0.0.30",
     "gulp-watch": "^4.3.11",
+    "jasmine": "^2.5.3",
+    "jasmine-reporters": "^2.2.0",
     "jshint": "^2.9.4"
   }
 }

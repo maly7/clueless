@@ -1,11 +1,20 @@
 var gulp = require('gulp');
 var install = require('gulp-install');
 var gls = require('gulp-live-server');
+var jasmine = require('gulp-jasmine');
+var reporters = require('jasmine-reporters');
 
 
 gulp.task('npm-install', function () {
     return gulp.src('./package.json')
         .pipe(install());
+});
+
+gulp.task('tdd', function () {
+    return gulp.src(['src/**/*Spec.js'])
+        .pipe(jasmine({
+            reporter: new reporters.TerminalReporter()
+        }));
 });
 
 gulp.task('server', function () {
@@ -21,4 +30,4 @@ gulp.task('server', function () {
     });
 });
 
-gulp.task('default', ['npm-install', 'server']);
+gulp.task('default', ['npm-install', 'tdd', 'server']);

@@ -3,6 +3,9 @@ module.exports = function () {
 
     function getUser(id) {
         console.log('get user function called with id: ' + id);
+        return {
+            id: id
+        };
     }
 
     return {
