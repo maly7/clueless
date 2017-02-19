@@ -4,17 +4,23 @@ var gls = require('gulp-live-server');
 var jasmine = require('gulp-jasmine');
 var reporters = require('jasmine-reporters');
 
+var specs = ['src/**/*Spec.js'];
+var srcFiles = ['app.js', 'src/**/*.js', 'routes/**/*.js', 'bin/www'];
 
 gulp.task('npm-install', function () {
     return gulp.src('./package.json')
         .pipe(install());
 });
 
-gulp.task('tdd', function () {
-    return gulp.src(['src/**/*Spec.js'])
+gulp.task('jasmine', function () {
+    return gulp.src(specs)
         .pipe(jasmine({
             reporter: new reporters.TerminalReporter()
         }));
+});
+
+gulp.task('tdd', ['jasmine'], function () {
+    return gulp.watch(srcFiles, ['jasmine']);
 });
 
 gulp.task('server', function () {
@@ -25,7 +31,7 @@ gulp.task('server', function () {
         server.notify.apply(server,   [file]);    
     });
 
-    gulp.watch(['app.js', 'src/**/*.js', 'routes/**/*.js', 'bin/www'], function () {
+    gulp.watch(srcFiles, function () {
         server.start.bind(server)();
     });
 });
