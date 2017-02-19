@@ -37,4 +37,6 @@ gulp.task('server', function () {
     });
 });
 
-gulp.task('default', ['npm-install', 'tdd', 'server']);
+gulp.task('build', ['npm-install', 'tdd', 'server']);
+
+gulp.task('default', ['build']);
