@@ -6,11 +6,12 @@ block content
       div(class='jumbotron')
         p Game Board Goes Here
     div#message-container(class='col-md-3')
-      div(class='row')
-        ul#messages(class='list-unstyled')
-          li sample update 1
-          li sample update 2
-        div(class='form-inline')
+      div(class='row activity-log')
+        div(class='message-list')
+          ul#messages(class='list-unstyled')
+            li sample update 1
+            li sample update 2
+        div(class='form-inline player-input-form')
           div#form-container(class='form-group')
             input(autocomplete='off' class='form-control' style='margin-right: 5px')
           button(class='btn btn-primary') Send

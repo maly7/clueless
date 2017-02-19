@@ -7,3 +7,18 @@ body {
 a {
   color: #00B7FF;
 }
+
+.player-input-form {
+  bottom: 40px;
+  position: absolute;
+}
+
+.activity-log {
+  max-height: 450px;
+  min-height: 450px;
+}
+
+.message-list {
+  overflow: auto;
+  height: 250px;
+}
