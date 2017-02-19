@@ -6,6 +6,7 @@ var reporters = require('jasmine-reporters');
 
 var specs = ['src/**/*Spec.js'];
 var srcFiles = ['app.js', 'src/**/*.js', 'routes/**/*.js', 'bin/www'];
+var allFiles = specs.concat(srcFiles);
 
 gulp.task('npm-install', function () {
     return gulp.src('./package.json')
@@ -20,7 +21,7 @@ gulp.task('jasmine', function () {
 });
 
 gulp.task('tdd', ['jasmine'], function () {
-    return gulp.watch(srcFiles, ['jasmine']);
+    return gulp.watch(allFiles, ['jasmine']);
 });
 
 gulp.task('server', function () {
