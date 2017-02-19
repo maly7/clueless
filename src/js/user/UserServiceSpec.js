@@ -3,9 +3,10 @@ describe('UserService', function () {
 
     describe('getUser', function () {
         it('should return a new user with the specified id', function () {
-            var user = userService.getUser(4);
+            var id = 4;
+            var user = userService.getUser(id);
 
-            expect(user.id).toEqual(4);
+            expect(user.id).toEqual(id);
         });
     });
 });
