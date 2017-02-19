@@ -17,6 +17,7 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
+    <Compile Include="src\js\user\UserServiceSpec.js" />
     <Content Include=".gitignore" />
     <Content Include="bin\ChangeConfig.ps1" />
     <Content Include="bin\download.ps1" />
@@ -26,14 +27,22 @@
     <Content Include="bin\www" />
     <None Include="clueless - Web Deploy.pubxml" />
     <None Include="clueless - FTP.pubxml" />
+    <None Include="clueless - FTP %282%29.pubxml" />
+    <Content Include="clueless - FTP.pubxml.user" />
+    <None Include="clueless - Web Deploy %282%29.pubxml" />
+    <Content Include="clueless - Web Deploy.pubxml.user" />
     <Content Include="obj\Debug\Clueless.njsproj.FileListAbsolute.txt" />
     <Content Include="obj\Debug\Clueless.njsprojResolveAssemblyReference.cache" />
     <Content Include="obj\Debug\CoreCompileInputs.cache" />
+    <Content Include="public\stylesheets\bootstrap.css" />
+    <Content Include="README.md" />
+    <Content Include="spec\support\jasmine.json" />
     <Content Include="Web.config" />
     <None Include="Web.Debug.config" />
     <Content Include="package.json" />
     <Compile Include="app.js" />
     <Compile Include="gulpfile.js" />
+    <Compile Include="public\javascripts\bootstrap.js" />
     <Compile Include="routes\index.js" />
     <Content Include="views\error.jade" />
     <Content Include="views\index.jade" />
@@ -55,6 +64,9 @@
     <Folder Include="public\stylesheets" />
     <Folder Include="routes" />
     <Folder Include="routes\api" />
+    <Folder Include="spec\" />
+    <Folder Include="spec\helpers\" />
+    <Folder Include="spec\support\" />
     <Folder Include="src" />
     <Folder Include="src\js" />
     <Folder Include="src\js\user" />
