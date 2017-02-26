@@ -17,7 +17,9 @@
     "socket.io": "^1.7.3"
   },
   "devDependencies": {
+    "del": "^2.2.2",
     "gulp": "^3.9.1",
+    "gulp-browserify": "^0.5.1",
     "gulp-install": "^0.6.0",
     "gulp-live-server": "0.0.30",
     "gulp-watch": "^4.3.11",

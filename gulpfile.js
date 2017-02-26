@@ -3,10 +3,18 @@ var install = require('gulp-install');
 var gls = require('gulp-live-server');
 var jasmine = require('gulp-jasmine');
 var reporters = require('jasmine-reporters');
+var browserify = require('gulp-browserify');
+var del = require('del');
 
+var buildDir = 'build/js';
+var clientJs = ['public/javascripts/**.js']
 var specs = ['src/**/*Spec.js'];
 var srcFiles = ['app.js', 'src/**/*.js', 'routes/**/*.js', 'bin/www'];
 var allFiles = specs.concat(srcFiles);
+
+gulp.task('clean', function () {
+    return del([buildDir]);
+});
 
 gulp.task('npm-install', function () {
     return gulp.src('./package.json')
@@ -24,6 +32,15 @@ gulp.task('tdd', ['jasmine'], function () {
     return gulp.watch(allFiles, ['jasmine']);
 });
 
+gulp.task('scripts', ['clean'], function () {
+    return gulp.src(clientJs)
+        .pipe(browserify({
+            insertGlobals: true,
+            debug: true
+        }))
+        .pipe(gulp.dest(buildDir));
+});
+
 gulp.task('server', function () {
     var server = gls.new('bin/www');
     server.start();
@@ -37,6 +54,6 @@ gulp.task('server', function () {
     });
 });
 
-gulp.task('build', ['npm-install', 'tdd', 'server']);
+gulp.task('build', ['npm-install', 'scripts', 'tdd', 'server']);
 
 gulp.task('default', ['build']);
