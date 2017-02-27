@@ -6,7 +6,7 @@ var reporters = require('jasmine-reporters');
 var browserify = require('gulp-browserify');
 var del = require('del');
 
-var buildDir = 'build/js';
+var buildDir = 'public/build/js';
 var clientJs = ['public/javascripts/**.js']
 var specs = ['src/**/*Spec.js'];
 var srcFiles = ['app.js', 'src/**/*.js', 'routes/**/*.js', 'bin/www'];
@@ -32,13 +32,17 @@ gulp.task('tdd', ['jasmine'], function () {
     return gulp.watch(allFiles, ['jasmine']);
 });
 
-gulp.task('scripts', ['clean'], function () {
+gulp.task('browserify', ['clean'], function () {
     return gulp.src(clientJs)
         .pipe(browserify({
             insertGlobals: true,
             debug: true
         }))
         .pipe(gulp.dest(buildDir));
+});
+
+gulp.task('scripts', ['browserify'], function() {
+    return gulp.watch(clientJs, ['browserify']);
 });
 
 gulp.task('server', function () {
