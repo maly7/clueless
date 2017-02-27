@@ -36,3 +36,4 @@ obj
 *.user
 *.pubxml
 build
+public/build
