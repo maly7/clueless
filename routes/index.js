@@ -1,7 +1,5 @@
 var express = require('express');
-var server = require('http').Server(express());
 var router = express.Router();
-var io = require('socket.io')(server);
 
 var messageService = require('../src/js/message/MessageService');
 
@@ -13,10 +11,6 @@ router.get('/', function (req, res, next) {
     title: 'Clueless',
     messages: messages
   });
-});
-
-io.on('connection', function (socket) {
-  console.log('a user connected');
 });
 
 module.exports = router;
