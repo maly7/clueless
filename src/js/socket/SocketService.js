@@ -1,23 +1,21 @@
 (function () {
     'use strict';
 
-    var socketService = function (io) {
-        this.io = io;
-        this.io.on('connection', function (socket) {
+    function SocketService(io) {
+        var service = this;
+        service.io = io;
+
+        io.on('connection', function (socket) {
             socket.emit('news', {
                 event: 'Hello world'
             });
         });
+    }
 
-        var connect = function (url) {
-            return this.io.connect(url);
-        };
-
-        return {
-            connect: connect
-        };
+    SocketService.prototype.connect = function(url) {
+        return this.io.connect(url);
     };
 
-    module.exports = socketService;
+    module.exports = SocketService;
 
 }());
