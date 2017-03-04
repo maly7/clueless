@@ -30,6 +30,11 @@ socket.on('connection', function (socket) {
     'id': socket.id
   });
 
+  socket.on('chat-message', function(data) {
+    console.log('message received: ' + data.message);
+    io.emit('chat-message', data);
+  });
+
 });
 
 /**
