@@ -1,7 +1,7 @@
-(function() {
+(function () {
     'use strict';
 
-    var messageService = function() {
+    var messageService = function () {
         function getMessages() {
             return [{
                 text: 'Sample Message 1'
