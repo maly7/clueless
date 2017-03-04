@@ -1,8 +1,8 @@
-describe('MessageService', function() {
+describe('MessageService', function () {
     var messageService = require('./MessageService');
 
-    describe('getMessages', function() {
-        it('should return a list of the current messages', function() {
+    describe('getMessages', function () {
+        it('should return a list of the current messages', function () {
             var messages = messageService.getMessages();
 
             expect(messages.length).toEqual(2);
