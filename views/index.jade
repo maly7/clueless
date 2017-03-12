@@ -1,5 +1,19 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  script(src='build/js/Messages.js', type='text/javascript')
+  div(class='row')
+    div#board-container(class='col-md-9')
+      div(class='jumbotron')
+        p Game Board Goes Here
+    div#message-container(class='col-md-3')
+      div(class='row activity-log')
+        div(class='message-list')
+          ul#messages(class='list-unstyled')
+        div(class='form-inline player-input-form')
+          div#form-container(class='form-group')
+            input#chat-box(autocomplete='off' class='form-control' style='margin-right: 5px')
+          button#send-btn(class='btn btn-primary') Send
+      div(class='row')
+        h4 Player Actions
+  

@@ -32,3 +32,8 @@ npm-debug.log
 obj
 
 .vs
+
+*.user
+*.pubxml
+build
+public/build

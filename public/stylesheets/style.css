@@ -1,8 +1,24 @@
 body {
   padding: 50px;
+  padding-top: 70px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}
+
+.player-input-form {
+  bottom: 40px;
+  position: absolute;
+}
+
+.activity-log {
+  max-height: 450px;
+  min-height: 450px;
+}
+
+.message-list {
+  overflow: auto;
+  height: 250px;
 }

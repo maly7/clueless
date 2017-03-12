@@ -1,0 +1,25 @@
+{
+    "version": "0.1.0",
+    "command": "gulp",
+    "isShellCommand": true,
+    "args": [
+        "--no-color"
+    ],
+    "tasks": [{
+        "taskName": "npm-install",
+        "isBuildCommand": true,
+        "showOutput": "always"
+    }, {
+        "taskName": "jasmine",
+        "isBuildCommand": true,
+        "showOutput": "always"
+    }, {
+        "taskName": "tdd",
+        "isBuildCommand": true,
+        "showOutput": "always"
+    }, {
+        "taskName": "server",
+        "isBuildCommand": true,
+        "showOutput": "always"
+    }]
+}
