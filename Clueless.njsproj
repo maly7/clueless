@@ -17,6 +17,18 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
+    <Compile Include="public\build\js\Messages.js" />
+    <Compile Include="public\javascripts\Messages.js" />
+    <Compile Include="src\js\actions\ActionRecorder.js" />
+    <Compile Include="src\js\actions\ActionRecorderSpec.js" />
+    <Compile Include="src\js\gameboard\GameBoardService.js" />
+    <Compile Include="src\js\gameboard\GameBoardServiceSpec.js" />
+    <Compile Include="src\js\message\MessageService.js" />
+    <Compile Include="src\js\message\MessageServiceSpec.js" />
+    <Compile Include="src\js\player\PlayerActionController.js" />
+    <Compile Include="src\js\player\PlayerActionControllerSpec.js" />
+    <Compile Include="src\js\rules\RulesEngine.js" />
+    <Compile Include="src\js\rules\RulesEngineSpec.js" />
     <Compile Include="src\js\user\UserServiceSpec.js" />
     <Content Include=".gitignore" />
     <Content Include="bin\ChangeConfig.ps1" />
@@ -59,6 +71,8 @@
     <Folder Include="obj\Debug\" />
     <Folder Include="obj\Debug\__testMsDeployConnection__\" />
     <Folder Include="public" />
+    <Folder Include="public\build\" />
+    <Folder Include="public\build\js\" />
     <Folder Include="public\images" />
     <Folder Include="public\javascripts" />
     <Folder Include="public\stylesheets" />
@@ -69,6 +83,11 @@
     <Folder Include="spec\support\" />
     <Folder Include="src" />
     <Folder Include="src\js" />
+    <Folder Include="src\js\actions\" />
+    <Folder Include="src\js\gameboard\" />
+    <Folder Include="src\js\message\" />
+    <Folder Include="src\js\player\" />
+    <Folder Include="src\js\rules\" />
     <Folder Include="src\js\user" />
     <Folder Include="views" />
   </ItemGroup>

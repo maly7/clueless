@@ -21,20 +21,18 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
-var socket = io.listen(server);
+var socketIO = io.listen(server);
 
-socket.on('connection', function (socket) {
-
-  socket.broadcast.emit('player-joined', {
+socketIO.on('connection', function (socket) {
+  socketIO.emit('player-joined', {
     'message': 'Hello Player ' + socket.id,
     'id': socket.id
   });
 
-  socket.on('chat-message', function(data) {
+  socket.on('chat-send', function (data) {
     console.log('message received: ' + data.message);
-    io.emit('chat-message', data);
+    socketIO.emit('chat-message', data);
   });
-
 });
 
 /**
