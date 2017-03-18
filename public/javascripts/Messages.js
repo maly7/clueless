@@ -1,40 +1,54 @@
-var io = require('socket.io-client');
-var $ = require('jquery');
-var socket = io.connect('http://localhost:3000');
+(function () {
+    'use strict';
+    var io = require('socket.io-client');
+    var socket = io.connect('http://localhost:3000');
+    var $ = require('jquery');
 
-window.onload = function () {
-    $('#send-btn').click(function () {
-        console.log('send clicked');
-        var text = getChatInput();
-        sendButtonClicked(text);
-        clearChatInput();
-        return false;
-    });
+    var messages = function () {
+        var addMessage = function (message) {
+            return $('#messages').append($('<li>').text(message));
+        };
 
-    socket.on('player-joined', function (data) {
-        addMessage(data.message);
-    });
+        var sendButtonClicked = function (text) {
+            console.log("Send button clicked with text: " + text);
+            socket.emit('chat-send', {
+                message: text
+            });
+        };
 
-    socket.on('chat-message', function (data) {
-        addMessage(data.message);
-    });
-};
+        var getChatInput = function () {
+            return $('#chat-box').val();
+        };
 
-var addMessage = function (message) {
-    return $('#messages').append($('<li>').text(message));
-};
+        var clearChatInput = function () {
+            return $('#chat-box').val('');
+        };
 
-var sendButtonClicked = function (text) {
-    console.log("Send button clicked with text: " + text);
-    socket.emit('chat-send', {
-        message: text
-    });
-};
+        var registerSockets = function () {
+            socket.on('player-joined', function (data) {
+                addMessage(data.message);
+            });
 
-var getChatInput = function () {
-    return $('#chat-box').val();
-};
+            socket.on('chat-message', function (data) {
+                addMessage(data.message);
+            });
+        };
 
-var clearChatInput = function () {
-    return $('#chat-box').val('');
-}
+        var registerSendButtonListener = function () {
+            $('#send-btn').click(function () {
+                console.log('send clicked');
+                var text = getChatInput();
+                sendButtonClicked(text);
+                clearChatInput();
+                return false;
+            });
+        };
+
+        return {
+            listen: registerSockets,
+            registerSendButtonListener: registerSendButtonListener
+        };
+    };
+
+    module.exports = messages();
+}());
