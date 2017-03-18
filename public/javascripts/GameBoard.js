@@ -9,10 +9,10 @@
             var tableHtml = '';
 
             for (var i = 0; i <= 10; i++) {
-                tableHtml += '<tr>';
+                tableHtml += '<tr class=\'board-row\'>';
                 for (var j = 0; j <= 10; j++) {
                     var cssClass = boardStyling.lookupStyle(i, j);
-                    tableHtml += '<td class=\'' + cssClass + '\'>' + i + ', ' + j + '</td>';
+                    tableHtml += '<td class=\'board-column ' + cssClass + '\'>' + i + ', ' + j + '</td>';
                 }
                 tableHtml += '</tr>';
             }

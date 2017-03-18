@@ -41,6 +41,7 @@ a {
 
 .lounge {
   background-color: blue;
+  color: white;
 }
 
 .secret {
@@ -71,10 +72,14 @@ a {
   background-color: teal;
 }
 
-tr {
+.board-row {
   height: 75px;
 }
 
-td {
+.board-column {
   max-width: 75px;
+}
+
+.bold {
+  font-weight: bold;
 }
