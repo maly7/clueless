@@ -23,6 +23,54 @@ a {
   height: 250px;
 }
 
+.empty {
+  background-color: white;
+}
+
+.hallway {
+  background-color: gray;
+}
+
+.study {
+  background-color: brown;
+}
+
+.hall {
+  background: yellow;
+}
+
+.lounge {
+  background-color: blue;
+}
+
+.secret {
+  background-color: red;
+}
+
+.library {
+  background-color: blueviolet;
+}
+
+.billiard {
+  background-color: green;
+}
+
+.dining {
+  background-color: darkorange;
+}
+
+.conservatory {
+  background-color: skyblue;
+}
+
+.ballroom {
+  background-color: hotpink;
+}
+
+.kitchen {
+  background-color: teal;
+}
+
 tr {
   height: 75px;
 }
