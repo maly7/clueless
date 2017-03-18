@@ -22,3 +22,64 @@ a {
   overflow: auto;
   height: 250px;
 }
+
+.empty {
+  background-color: white;
+}
+
+.hallway {
+  background-color: gray;
+}
+
+.study {
+  background-color: brown;
+}
+
+.hall {
+  background: yellow;
+}
+
+.lounge {
+  background-color: blue;
+  color: white;
+}
+
+.secret {
+  background-color: red;
+}
+
+.library {
+  background-color: blueviolet;
+}
+
+.billiard {
+  background-color: green;
+}
+
+.dining {
+  background-color: darkorange;
+}
+
+.conservatory {
+  background-color: skyblue;
+}
+
+.ballroom {
+  background-color: hotpink;
+}
+
+.kitchen {
+  background-color: teal;
+}
+
+.board-row {
+  height: 75px;
+}
+
+.board-column {
+  max-width: 75px;
+}
+
+.bold {
+  font-weight: bold;
+}
