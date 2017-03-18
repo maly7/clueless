@@ -22,3 +22,11 @@ a {
   overflow: auto;
   height: 250px;
 }
+
+tr {
+  height: 75px;
+}
+
+td {
+  max-width: 75px;
+}
