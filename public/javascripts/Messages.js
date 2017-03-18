@@ -1,8 +1,11 @@
 var io = require('socket.io-client');
 var $ = require('jquery');
 var socket = io.connect('http://localhost:3000');
+var gameBoard = require('./GameBoard');
 
 window.onload = function () {
+    gameBoard.populateCells();
+
     $('#send-btn').click(function () {
         console.log('send clicked');
         var text = getChatInput();
@@ -37,4 +40,4 @@ var getChatInput = function () {
 
 var clearChatInput = function () {
     return $('#chat-box').val('');
-}
+};
