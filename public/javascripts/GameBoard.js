@@ -20,8 +20,21 @@
             $('#game-board tbody').append(tableHtml);
         };
 
+        var registerCellButtonClick = function () {
+            $('#game-board td.clickable-td').click(function () {
+                console.log('click!!');
+            });
+        };
+
+        var init = function () {
+            populateCells();
+            registerCellButtonClick();
+        };
+
         return {
-            populateCells: populateCells
+            init: init,
+            populateCells: populateCells,
+            registerCellButtonClick: registerCellButtonClick
         };
     };
 
