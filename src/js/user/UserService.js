@@ -1,5 +1,7 @@
 (function () {
     'use strict';
+    var _ = require('lodash')
+
     var PLAYER_NAMESPACE = '/players';
 
     var userService = {};
@@ -7,10 +9,7 @@
     var userCount = 0;
 
     userService.getUser = function (id) {
-        console.log('get user function called with id: ' + id);
-        return {
-            id: id
-        };
+        return _.find(users, ['id', id]);
     };
 
     var stripId = function (id) {
@@ -40,6 +39,12 @@
             });
         });
     };
+
+    userService.getCount = function() {
+        return userCount;
+    };
+
+    userService.addUser = addUser;
 
     module.exports = userService;
 }());
