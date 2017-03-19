@@ -10,6 +10,7 @@
     var userService = {};
     var users = {};
     var userCount = 0;
+    var connectedPlayers = 0;
 
     userService.getUser = function (id) {
         return users[id];
@@ -32,7 +33,7 @@
     };
 
     var registerCharacterSelect = function (id, character) {
-        _.remove(availableCharacters, function(val) {
+        _.remove(availableCharacters, function (val) {
             return val === character;
         });
         users[id].character = character;
@@ -54,13 +55,18 @@
 
         characterNsp.on('connection', function (socket) {
             socket.emit('available-characters', {
-                'characters': availableCharacters
+                'characters': availableCharacters,
+                'count': connectedPlayers
             });
 
             socket.on('character-selected', function (data) {
+                connectedPlayers++;
                 registerCharacterSelect(stripId(socket.id), data.character);
                 socket.broadcast.emit('available-characters', {
                     'characters': availableCharacters
+                });
+                characterNsp.emit('player-count', {
+                    'count': connectedPlayers
                 });
             });
         });
@@ -69,6 +75,10 @@
     userService.getCount = function () {
         return userCount;
     };
+
+    userService.getConnectedPlayerCount = function () {
+        return connectedPlayers;
+    }
 
     userService.getAvailableCharacters = function () {
         return availableCharacters;

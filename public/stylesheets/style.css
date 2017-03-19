@@ -92,3 +92,8 @@ a {
   text-align: center;
   color: red;
 }
+
+.ready-message {
+  text-align: center;
+  color: green;
+}
