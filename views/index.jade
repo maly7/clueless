@@ -4,40 +4,12 @@ block content
   script(src='build/js/Clueless.js', type='text/javascript')
   div(class='row')
     div#board-container(class='col-md-9')
-      div(class='jumbotron')
-        table#game-board(class='table table-bordered' style='height: 825px; width: 825px; margin:auto;')
-          tbody
+      include ./components/board
       div
-        table#legend(class='table table')
-          thead
-            th Legend
-          tbody
-            tr
-              td(class='study bold') Study
-              td(class='hall bold') Hall
-              td(class='lounge bold') Lounge
-            tr
-              td(class='library bold') Library
-              td(class='billiard bold') Billiard Room
-              td(class='dining bold') Dining Room
-            tr
-              td(class='conservatory bold') Conservatory
-              td(class='ballroom bold') Ballroom
-              td(class='kitchen bold') Kitchen
-            tr
-              td(class='hallway bold') Hallway
-              td(class='secret bold') Secret Passage
-              td(class='empty bold') Empty
+        include ./components/legend
     div#message-container(class='col-md-3')
-      div(class='row activity-log')
-        div(class='message-list')
-          ul#messages(class='list-unstyled')
-        div(class='form-inline player-input-form')
-          div#form-container(class='form-group')
-            input#chat-box(autocomplete='off' class='form-control' style='margin-right: 5px')
-          button#send-btn(class='btn btn-primary') Send
+      include ./components/message
       div(class='row')
         h4 Player Actions
-
-        include welcome
+        include ./components/welcome
   
