@@ -2,6 +2,7 @@
     'use strict';
     var io = require('socket.io-client');
     var characterSocket = io.connect('http://localhost:3000/characters');
+    var _ = require('lodash');
 
     var welcomeModal = '#welcome-modal';
     var selectButton = '#select-character';
@@ -25,9 +26,20 @@
         });
     };
 
+    var listenToSocket = function () {
+        characterSocket.on('available-characters', function (data) {
+            $(characterSelect).children().remove();
+            console.log(data.characters);
+            _.forEach(data.characters, function (character) {
+                $(characterSelect).append('<option>' + character + '</option>');
+            });
+        });
+    };
+
     welcome.init = function () {
         // showModal();
         registerSelectButton();
+        listenToSocket();
         return;
     };
 

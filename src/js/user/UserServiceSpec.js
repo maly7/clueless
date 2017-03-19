@@ -31,6 +31,7 @@ describe('UserService', function () {
             var availableCharacters = userService.getAvailableCharacters();
 
             expect(availableCharacters).not.toContain('Col. Mustard');
+            expect(availableCharacters.length).toBeGreaterThan(1);
         });
 
         it('should associate the selected character with the player', function () {

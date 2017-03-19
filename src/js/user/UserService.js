@@ -32,7 +32,9 @@
     };
 
     var registerCharacterSelect = function (id, character) {
-        availableCharacters = _.remove(availableCharacters, character);
+        _.remove(availableCharacters, function(val) {
+            return val === character;
+        });
         users[id].character = character;
         return;
     };
@@ -51,8 +53,15 @@
         });
 
         characterNsp.on('connection', function (socket) {
+            socket.emit('available-characters', {
+                'characters': availableCharacters
+            });
+
             socket.on('character-selected', function (data) {
                 registerCharacterSelect(stripId(socket.id), data.character);
+                socket.broadcast.emit('available-characters', {
+                    'characters': availableCharacters
+                });
             });
         });
     };
