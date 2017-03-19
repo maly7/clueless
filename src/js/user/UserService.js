@@ -1,18 +1,40 @@
 (function () {
     'use strict';
 
-    var userService = function () {
-        function getUser(id) {
-            console.log('get user function called with id: ' + id);
-            return {
-                id: id
-            };
-        }
+    var userService = {};
+    var users = [];
+    var userCount = 0;
 
+    userService.getUser = function (id) {
+        console.log('get user function called with id: ' + id);
         return {
-            getUser: getUser
+            id: id
         };
     };
 
-    module.exports = userService();
+    var addUser = function(id) {
+        userCount++;
+        var newUser = {
+            'id': id,
+            'playerNumber': userCount
+        };
+        users.push(newUser);
+
+        return newUser;
+    };
+
+    userService.init = function (io) {
+        var playerNsp = io.of('/players');
+
+        playerNsp.on('connection', function (socket) {
+            var newPlayer = addUser(socket.id)
+
+            playerNsp.emit('player-joined', {
+                'message': 'Hello Player ' + newPlayer.playerNumber,
+                'id': newPlayer.id
+            });
+        });
+    };
+
+    module.exports = userService;
 }());

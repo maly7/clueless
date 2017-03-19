@@ -8,6 +8,7 @@ var app = require('../app');
 var debug = require('debug')('cluejs:server');
 var http = require('http');
 var io = require('socket.io');
+var userService = require('../src/js/user/UserService');
 
 /**
  * Get port from environment and store in Express.
@@ -30,14 +31,7 @@ socketIO.on('connection', function (socket) {
   });
 });
 
-var playerNsp = socketIO.of('/players');
-
-playerNsp.on('connection', function (socket) {
-  playerNsp.emit('player-joined', {
-    'message': 'Hello Player ' + socket.id,
-    'id': socket.id
-  });
-});
+userService.init(socketIO);
 
 /**
  * Listen on provided port, on all network interfaces.
