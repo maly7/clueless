@@ -87,3 +87,8 @@ a {
 .bold {
   font-weight: bold;
 }
+
+.waiting-message {
+  text-align: center;
+  color: red;
+}
