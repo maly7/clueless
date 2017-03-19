@@ -4,6 +4,8 @@
 
     var PLAYER_NAMESPACE = '/players';
 
+    var availableCharacters = ['Col. Mustard', 'Ms. Scarlet', 'Mrs. White', 'Rev. Green', 'Mrs. Peacock', 'Prof. Plum'];
+
     var userService = {};
     var users = [];
     var userCount = 0;
@@ -43,6 +45,10 @@
     userService.getCount = function() {
         return userCount;
     };
+
+    userService.getAvailableCharacters = function() {
+        return availableCharacters;
+    }
 
     userService.addUser = addUser;
 

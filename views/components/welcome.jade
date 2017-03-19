@@ -6,5 +6,10 @@ div#welcome-modal(class='modal fade' role='dialog')
             div(class='modal-header')
                 h4(class='modal-title') Welcome to Clueless!
             div(class='modal-body')
+                div(class='form-group')
+                    label(for='character-select') Select a Character
+                    select#character-select(class='form-control', placeholder='Select a Character')
+                        each character in characters
+                            option #{character}
             div(class='modal-footer')
                 button(class='btn btn-default' data-dismiss='modal') Close
