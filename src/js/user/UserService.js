@@ -8,11 +8,11 @@
     var availableCharacters = ['Col. Mustard', 'Ms. Scarlet', 'Mrs. White', 'Rev. Green', 'Mrs. Peacock', 'Prof. Plum'];
 
     var userService = {};
-    var users = [];
+    var users = {};
     var userCount = 0;
 
     userService.getUser = function (id) {
-        return _.find(users, ['id', id]);
+        return users[id];
     };
 
     var stripId = function (id) {
@@ -21,17 +21,19 @@
 
     var addUser = function (id) {
         userCount++;
+        var newId = stripId(id);
         var newUser = {
-            'id': stripId(id),
+            'id': newId,
             'playerNumber': userCount
         };
-        users.push(newUser);
+        users[newId] = newUser;
 
         return newUser;
     };
 
     var registerCharacterSelect = function (id, character) {
         availableCharacters = _.remove(availableCharacters, character);
+        users[id].character = character;
         return;
     };
 

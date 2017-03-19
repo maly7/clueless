@@ -32,5 +32,12 @@ describe('UserService', function () {
 
             expect(availableCharacters).not.toContain('Col. Mustard');
         });
+
+        it('should associate the selected character with the player', function () {
+            userService.registerCharacterSelect('abcdefg', 'Ms. Scarlet');
+            var user = userService.getUser('abcdefg');
+
+            expect(user.character).toEqual('Ms. Scarlet');
+        });
     });
 });
