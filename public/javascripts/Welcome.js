@@ -29,7 +29,13 @@
     };
 
     var setWaitingCount = function (count) {
-        $(waitingMessage).text('Waiting for at least 3 Players, currently there are ' + count);
+        if (count < 3) {
+            $(waitingMessage).text('Waiting for at least 3 Players, currently there are ' + count);
+        } else {
+            $(waitingMessage).removeClass('waiting-message');
+            $(waitingMessage).addClass('ready-message');
+            $(waitingMessage).text('Ready to start the game with ' + count + ' Players!');
+        }
     };
 
     var setCharacterOptions = function (characters) {
@@ -48,20 +54,16 @@
 
         characterSocket.on('player-count', function (data) {
             var count = data.count;
+            setWaitingCount(count);
             if (count < 3) {
-                setWaitingCount(count);
                 return;
             }
-
-            $(waitingMessage).removeClass('waiting-message');
-            $(waitingMessage).addClass('ready-message');
-            $(waitingMessage).text('Ready to start the game with ' + count + ' Players!');
             $(startGameButton).prop('disabled', false);
         });
     };
 
     welcome.init = function () {
-        // showModal();
+        showModal();
         registerSelectButton();
         listenToSocket();
         return;
