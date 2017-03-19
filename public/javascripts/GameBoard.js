@@ -12,7 +12,8 @@
                 tableHtml += '<tr class=\'board-row\'>';
                 for (var j = 0; j <= 10; j++) {
                     var cssClass = boardStyling.lookupStyle(i, j);
-                    tableHtml += '<td class=\'board-column ' + cssClass + '\'>' + i + ', ' + j + '</td>';
+                    var id = i + '-' + j;
+                    tableHtml += '<td id=\'' + id + '\' class=\'board-column ' + cssClass + '\'>' + i + ', ' + j + '</td>';
                 }
                 tableHtml += '</tr>';
             }
@@ -21,8 +22,8 @@
         };
 
         var registerCellButtonClick = function () {
-            $('#game-board td.clickable-td').click(function () {
-                console.log('click!!');
+            $('#game-board td.clickable-td').click(function (event) {
+                console.log(event.target.id + ' was clicked!');
             });
         };
 
