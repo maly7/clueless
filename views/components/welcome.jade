@@ -8,7 +8,7 @@ div#welcome-modal(class='modal fade' role='dialog')
             div(class='modal-body')
                 div(class='form-group')
                     label(for='character-select') Select a Character
-                    select#character-select(class='form-control', placeholder='Select a Character')
+                    select#character-options(class='form-control')
                         each character in characters
                             option #{character}
             div(class='modal-footer')

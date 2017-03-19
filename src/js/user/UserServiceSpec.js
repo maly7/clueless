@@ -19,9 +19,18 @@ describe('UserService', function () {
             expect(userService.getCount()).toEqual(1);
         });
 
-        it('should increase after a user has been added', function() {
+        it('should increase after a user has been added', function () {
             userService.addUser('/players#hijkl');
             expect(userService.getCount()).toEqual(2);
+        });
+    });
+
+    describe('registerCharacterSelect', function () {
+        it('should remove the selected character from the available character list', function () {
+            userService.registerCharacterSelect('abcdefg', 'Col. Mustard');
+            var availableCharacters = userService.getAvailableCharacters();
+
+            expect(availableCharacters).not.toContain('Col. Mustard');
         });
     });
 });

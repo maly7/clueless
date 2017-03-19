@@ -3,6 +3,7 @@
     var _ = require('lodash')
 
     var PLAYER_NAMESPACE = '/players';
+    var CHARACTER_NAMESPACE = '/characters';
 
     var availableCharacters = ['Col. Mustard', 'Ms. Scarlet', 'Mrs. White', 'Rev. Green', 'Mrs. Peacock', 'Prof. Plum'];
 
@@ -29,8 +30,14 @@
         return newUser;
     };
 
+    var registerCharacterSelect = function (id, character) {
+        availableCharacters = _.remove(availableCharacters, character);
+        return;
+    };
+
     userService.init = function (io) {
         var playerNsp = io.of(PLAYER_NAMESPACE);
+        var characterNsp = io.of(CHARACTER_NAMESPACE);
 
         playerNsp.on('connection', function (socket) {
             var newPlayer = addUser(socket.id);
@@ -40,17 +47,24 @@
                 'id': newPlayer.id
             });
         });
+
+        characterNsp.on('connection', function (socket) {
+            socket.on('character-selected', function (data) {
+                registerCharacterSelect(stripId(socket.id), data.character);
+            });
+        });
     };
 
-    userService.getCount = function() {
+    userService.getCount = function () {
         return userCount;
     };
 
-    userService.getAvailableCharacters = function() {
+    userService.getAvailableCharacters = function () {
         return availableCharacters;
     }
 
     userService.addUser = addUser;
+    userService.registerCharacterSelect = registerCharacterSelect;
 
     module.exports = userService;
 }());
