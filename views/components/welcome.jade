@@ -12,4 +12,8 @@ div#welcome-modal(class='modal fade' role='dialog')
                         each character in characters
                             option #{character}
             div(class='modal-footer')
-                button(class='btn btn-default' data-dismiss='modal') Close
+                div(class='row')
+                    div(class='col-md-6')
+                        button#select-character(class='btn btn-primary pull-left') Select Character
+                    div(class='col-md-6')
+                        button(class='btn btn-default' data-dismiss='modal') Close
