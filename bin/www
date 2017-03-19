@@ -24,14 +24,18 @@ var server = http.createServer(app);
 var socketIO = io.listen(server);
 
 socketIO.on('connection', function (socket) {
-  socketIO.emit('player-joined', {
-    'message': 'Hello Player ' + socket.id,
-    'id': socket.id
-  });
-
   socket.on('chat-send', function (data) {
     console.log('message received: ' + data.message);
     socketIO.emit('chat-message', data);
+  });
+});
+
+var playerNsp = socketIO.of('/players');
+
+playerNsp.on('connection', function (socket) {
+  playerNsp.emit('player-joined', {
+    'message': 'Hello Player ' + socket.id,
+    'id': socket.id
   });
 });
 

@@ -2,6 +2,7 @@
     'use strict';
     var io = require('socket.io-client');
     var socket = io.connect('http://localhost:3000');
+    var playerSocket = io.connect('http://localhost:3000/players')
     var $ = require('jquery');
 
     var messages = function () {
@@ -25,7 +26,7 @@
         };
 
         var registerSockets = function () {
-            socket.on('player-joined', function (data) {
+            playerSocket.on('player-joined', function (data) {
                 addMessage(data.message);
             });
 
