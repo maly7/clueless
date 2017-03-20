@@ -12,9 +12,13 @@
     var userCount = 0;
     var connectedPlayers = 0;
 
-    userService.getUser = function (id) {
+    var getUser = function (id) {
         return users[id];
     };
+
+    var getUserFromSocketId = function (socketId) {
+        return getUser(stripId(socketId));
+    }
 
     var stripId = function (id) {
         return id.substring(id.indexOf('#') + 1);
@@ -68,6 +72,13 @@
                 characterNsp.emit('player-count', {
                     'count': connectedPlayers
                 });
+                var user = getUserFromSocketId(socket.id);
+                var message = 'Player ' + user.playerNumber + ' selected ' + user.character;
+                io.emit('player-action', {
+                    'player': user.playerNumber,
+                    'action': 'selected character',
+                    'message': message
+                });
             });
         });
     };
@@ -84,6 +95,8 @@
         return availableCharacters;
     };
 
+    userService.getUserFromSocketId = getUserFromSocketId;
+    userService.getUser = getUser;
     userService.addUser = addUser;
     userService.registerCharacterSelect = registerCharacterSelect;
 

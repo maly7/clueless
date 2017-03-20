@@ -28,6 +28,9 @@
             socket.on('chat-message', function (data) {
                 addMessage(data.message);
             });
+            socket.on('player-action', function (data) {
+                addMessage(data.message);
+            });
         };
 
         var registerSendButtonListener = function () {
