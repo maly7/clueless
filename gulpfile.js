@@ -7,7 +7,7 @@ var browserify = require('gulp-browserify');
 var del = require('del');
 
 var buildDir = 'public/build/js';
-var clientJs = ['public/javascripts/**.js']
+var clientJs = ['public/javascripts/**.js'];
 var specs = ['src/**/*Spec.js'];
 var srcFiles = ['app.js', 'src/**/*.js', 'routes/**/*.js', 'bin/www'];
 var allFiles = specs.concat(srcFiles);
