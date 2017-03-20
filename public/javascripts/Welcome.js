@@ -3,6 +3,7 @@
     var io = require('socket.io-client');
     var characterSocket = io.connect('http://localhost:3000/characters');
     var _ = require('lodash');
+    var game = require('./Game');
 
     var welcomeModal = '#welcome-modal';
     var selectButton = '#select-character';
@@ -31,6 +32,12 @@
             characterSocket.emit('character-selected', {
                 character: selectedCharacter
             });
+        });
+    };
+
+    var registerStartGameButton = function() {
+        $(startGameButton).click(function () {
+            game.startGame();
         });
     };
 
@@ -71,6 +78,7 @@
     welcome.init = function () {
         showModal();
         registerSelectButton();
+        registerStartGameButton();
         listenToSocket();
         return;
     };

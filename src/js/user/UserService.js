@@ -18,7 +18,7 @@
 
     var getUserFromSocketId = function (socketId) {
         return getUser(stripId(socketId));
-    }
+    };
 
     var stripId = function (id) {
         return id.substring(id.indexOf('#') + 1);
