@@ -13,7 +13,13 @@
     var welcome = {};
 
     var showModal = function () {
-        return $(welcomeModal).modal('show');
+        // Use this version to prevent clicking off modal to dismiss
+        // Leaving this off for now because it's annoying
+        // return $(welcomeModal).modal({
+        //     backdrop: 'static',
+        //     keyboard: false
+        // });
+        $(welcomeModal).modal('show');
     };
 
     var registerSelectButton = function () {
