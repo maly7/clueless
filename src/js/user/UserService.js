@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    var _ = require('lodash')
+    var _ = require('lodash');
 
     var PLAYER_NAMESPACE = '/players';
     var CHARACTER_NAMESPACE = '/characters';
@@ -78,11 +78,11 @@
 
     userService.getConnectedPlayerCount = function () {
         return connectedPlayers;
-    }
+    };
 
     userService.getAvailableCharacters = function () {
         return availableCharacters;
-    }
+    };
 
     userService.addUser = addUser;
     userService.registerCharacterSelect = registerCharacterSelect;
