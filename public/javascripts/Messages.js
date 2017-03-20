@@ -6,7 +6,8 @@
 
     var messages = function () {
         var addMessage = function (message) {
-            return $('#messages').append($('<li>').text(message));
+            $('#messages').append($('<li>').text(message));
+            return scrollToBottom();
         };
 
         var sendButtonClicked = function (text) {
@@ -22,6 +23,10 @@
 
         var clearChatInput = function () {
             return $('#chat-box').val('');
+        };
+
+        var scrollToBottom = function() {
+            return $('.message-list').animate({scrollTop: $('.message-list').prop('scrollHeight')}, 1000);
         };
 
         var registerSockets = function () {

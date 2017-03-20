@@ -24,15 +24,19 @@ app.set('port', port);
 var server = http.createServer(app);
 var socketIO = io.listen(server);
 
+userService.init(socketIO);
+app.set('userService', userService);
+
 socketIO.on('connection', function (socket) {
   socket.on('chat-send', function (data) {
     console.log('message received: ' + data.message);
-    socketIO.emit('chat-message', data);
+    var playerNumber = userService.getUser(socket.id).playerNumber;
+    var message = 'Player ' + playerNumber + ': ' + data.message;
+    socketIO.emit('chat-message', {
+      'message': message
+    });
   });
 });
-
-userService.init(socketIO);
-app.set('userService', userService);
 
 /**
  * Listen on provided port, on all network interfaces.
