@@ -75,6 +75,11 @@
         return _.filter(users, ['active', true]);
     };
 
+    
+    var getAvailableCharacters = function () {
+        return _.map(availableCharacters, 'name');
+    };
+
     userService.init = function (io) {
         var playerNsp = io.of(PLAYER_NAMESPACE);
         var characterNsp = io.of(CHARACTER_NAMESPACE);
@@ -90,7 +95,7 @@
 
         characterNsp.on('connection', function (socket) {
             socket.emit('available-characters', {
-                'characters': availableCharacters,
+                'characters': getAvailableCharacters(),
                 'count': connectedPlayers
             });
 
@@ -122,10 +127,7 @@
         return connectedPlayers;
     };
 
-    userService.getAvailableCharacters = function () {
-        return _.map(availableCharacters, 'name');
-    };
-
+    userService.getAvailableCharacters = getAvailableCharacters;
     userService.getUserFromSocketId = getUserFromSocketId;
     userService.getUser = getUser;
     userService.addUser = addUser;

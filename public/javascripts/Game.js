@@ -1,7 +1,5 @@
 (function () {
     'use strict';
-    var io = require('socket.io-client');
-    var gameSocket = io.connect('http://localhost:3000/game');
     var messages = require('./Messages');
 
     var welcomeModal = '#welcome-modal';
@@ -9,6 +7,7 @@
     var makeSuggestionButton = '#make-suggestion';
     var makeAccusationButton = '#make-accusation';
     var gameRunning = false;
+    var gameSocket = {};
 
     var startGame = function () {
         gameRunning = true;
@@ -52,7 +51,8 @@
         });
     };
 
-    var init = function () {
+    var init = function (socket) {
+        gameSocket = socket;
         listenToSocket();
         disableButtons();
         registerEndTurnButton();

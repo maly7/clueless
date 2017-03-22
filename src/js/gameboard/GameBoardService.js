@@ -27,6 +27,9 @@
         gameNsp.emit('game-status', {
             'message': message
         });
+        gameNsp.emit('mark-positions', {
+            'players': playerList
+        });
     };
 
     var startGame = function (playerNumber, players) {
