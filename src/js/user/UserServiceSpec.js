@@ -2,7 +2,7 @@ describe('UserService', function () {
     var userService = require('./UserService');
 
     beforeAll(function () {
-        userService.addUser('/players#abcdefg')
+        userService.addUser('/players#abcdefg');
     });
 
     describe('getUser', function () {
@@ -39,6 +39,12 @@ describe('UserService', function () {
             var user = userService.getUser('abcdefg');
 
             expect(user.character).toEqual('Ms. Scarlet');
+        });
+        it('should mark the player as active', function() {
+            userService.registerCharacterSelect('abcdefg', 'Ms. Scarlet');
+            var user = userService.getUser('abcdefg');
+
+            expect(user.active).toBe(true);
         });
     });
 });

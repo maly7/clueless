@@ -32,7 +32,6 @@
             'playerNumber': userCount
         };
         users[newId] = newUser;
-
         return newUser;
     };
 
@@ -41,6 +40,7 @@
             return val === character;
         });
         users[id].character = character;
+        users[id].active = true;
         return;
     };
 
