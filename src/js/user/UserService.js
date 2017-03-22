@@ -44,6 +44,10 @@
         return;
     };
 
+    var getPlayers = function () {
+        return _.filter(users, ['active', true]);
+    };
+
     userService.init = function (io) {
         var playerNsp = io.of(PLAYER_NAMESPACE);
         var characterNsp = io.of(CHARACTER_NAMESPACE);
@@ -99,6 +103,7 @@
     userService.getUser = getUser;
     userService.addUser = addUser;
     userService.registerCharacterSelect = registerCharacterSelect;
+    userService.getPlayers = getPlayers;
 
     module.exports = userService;
 }());
