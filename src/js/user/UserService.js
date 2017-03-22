@@ -5,26 +5,30 @@
     var PLAYER_NAMESPACE = '/players';
     var CHARACTER_NAMESPACE = '/characters';
 
-    // var availableCharacters = ['Col. Mustard', 'Ms. Scarlet', 'Mrs. White', 'Rev. Green', 'Mrs. Peacock', 'Prof. Plum'];
-
     var availableCharacters = [{
         name: 'Col. Mustard',
-        position: '3-9'
+        position: '3-9',
+        class: 'mustard'
     }, {
         name: 'Ms. Scarlet',
-        position: '1-7'
+        position: '1-7',
+        class: 'scarlet'
     }, {
         name: 'Mrs. White',
-        position: '9-7'
+        position: '9-7',
+        class: 'white'
     }, {
         name: 'Rev. Green',
-        position: '9-3'
+        position: '9-3',
+        class: 'green'
     }, {
         name: 'Mrs. Peacock',
-        position: '7-1'
+        position: '7-1',
+        class: 'peacock'
     }, {
         name: 'Prof. Plum',
-        position: '3-1'
+        position: '3-1',
+        class: 'plum'
     }];
 
     var userService = {};
@@ -62,6 +66,7 @@
         });
         users[id].character = selectedCharacter.name;
         users[id].position = selectedCharacter.position;
+        users[id].class = selectedCharacter.class;
         users[id].active = true;
         return;
     };

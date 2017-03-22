@@ -52,6 +52,12 @@ describe('UserService', function () {
 
             expect(user.position).toEqual('9-3');
         });
+        it('should assign a css class to the player', function() {
+            userService.registerCharacterSelect('abcdefg', 'Mrs. Peacock');
+            var user = userService.getUser('abcdefg');
+            
+            expect(user.class).toEqual('peacock');
+        });
     });
 
     describe('getPlayers', function () {
