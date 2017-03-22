@@ -18,7 +18,7 @@
 
     var getUserFromSocketId = function (socketId) {
         return getUser(stripId(socketId));
-    }
+    };
 
     var stripId = function (id) {
         return id.substring(id.indexOf('#') + 1);
@@ -32,7 +32,6 @@
             'playerNumber': userCount
         };
         users[newId] = newUser;
-
         return newUser;
     };
 
@@ -41,7 +40,12 @@
             return val === character;
         });
         users[id].character = character;
+        users[id].active = true;
         return;
+    };
+
+    var getPlayers = function () {
+        return _.filter(users, ['active', true]);
     };
 
     userService.init = function (io) {
@@ -99,6 +103,7 @@
     userService.getUser = getUser;
     userService.addUser = addUser;
     userService.registerCharacterSelect = registerCharacterSelect;
+    userService.getPlayers = getPlayers;
 
     module.exports = userService;
 }());

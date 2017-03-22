@@ -7,9 +7,9 @@ block content
       include ./components/board
       div
         include ./components/legend
-    div#message-container(class='col-md-3')
+    div#message-container(class='col-md-3 container')
       include ./components/message
+      include ./components/playerActions
       div(class='row')
-        h4 Player Actions
         include ./components/welcome
-  
+        
