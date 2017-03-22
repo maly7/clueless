@@ -29,22 +29,26 @@
         });
     };
 
+    var startGame = function (playerNumber, players) {
+        console.log('game started!');
+
+        var message = 'Player ' + playerNumber + ' started the game!';
+        gameNsp.emit('game-started', {
+            'message': message
+        });
+
+        playerList = players;
+        gameRunning = true;
+        notifyPlayerTurn();
+    };
+
     var init = function (io, userService) {
         gameNsp = io.of(GAME_NAMESPACE);
 
         gameNsp.on('connection', function (socket) {
             socket.on('start-game', function (data) {
-                console.log('game started!');
-
                 var playerNumber = userService.getUserFromSocketId(socket.id).playerNumber;
-                var message = 'Player ' + playerNumber + ' started the game!';
-                gameNsp.emit('game-started', {
-                    'message': message
-                });
-
-                playerList = userService.getPlayers();
-                gameRunning = true;
-                notifyPlayerTurn();
+                startGame(playerNumber, userService.getPlayers());
             });
             socket.on('end-turn', function (data) {
                 notifyPlayerTurn();
