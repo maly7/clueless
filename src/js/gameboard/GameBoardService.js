@@ -7,7 +7,7 @@
     var gameRunning = false;
     var currentPlayer = 0;
 
-    var getCurrentPlayer = function() {
+    var getCurrentPlayer = function () {
         var player = playerList[currentPlayer];
         if (currentPlayer + 1 >= playerList.length) {
             currentPlayer = 0;
@@ -15,14 +15,14 @@
             currentPlayer++;
         }
         return player;
-    }
+    };
 
-    var startGame = function(players) {
+    var startGame = function (players) {
         playerList.push(players);
 
-            // get current player
-            // notify current player of turn
-            // wait for end turn signal from current player
+        // get current player
+        // notify current player of turn
+        // wait for end turn signal from current player
     };
 
     var init = function (io, userService) {
@@ -31,16 +31,25 @@
         gameNsp.on('connection', function (socket) {
             socket.on('start-game', function (data) {
                 console.log('game started!');
-                
+
                 var playerNumber = userService.getUserFromSocketId(socket.id).playerNumber;
                 var message = 'Player ' + playerNumber + ' started the game!';
                 gameNsp.emit('game-started', {
                     'message': message
                 });
-                
-                var players = userService.getPlayers();
+
+                playerList = userService.getPlayers();
                 gameRunning = true;
-                startGame(players);
+                var player = getCurrentPlayer();
+                gameNsp.clients().sockets[GAME_NAMESPACE + '#' + player.id].emit('player-turn', {
+                    'message': 'Player ' + player.playerNumber + '\'s turn'
+                });
+            });
+            socket.on('end-turn', function (data) {
+                var player = getCurrentPlayer();
+                gameNsp.clients().sockets[GAME_NAMESPACE + '#' + player.id].emit('player-turn', {
+                    'message': 'Player ' + player.playerNumber + '\'s turn'
+                });
             });
         });
     };
