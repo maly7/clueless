@@ -20,8 +20,12 @@
 
     var notifyPlayerTurn = function () {
         var player = getCurrentPlayer();
+        var message = 'Player ' + player.playerNumber + '\'s turn';
         gameNsp.clients().sockets[GAME_NAMESPACE + '#' + player.id].emit('player-turn', {
-            'message': 'Player ' + player.playerNumber + '\'s turn'
+            'message': message
+        });
+        gameNsp.emit('game-status', {
+            'message': message
         });
     };
 

@@ -47,6 +47,9 @@
         gameSocket.on('player-turn', function (data) {
             enableButtons();
         });
+        gameSocket.on('game-status', function (data) {
+            messages.addMessage(data.message);
+        });
     };
 
     var init = function () {
