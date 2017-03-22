@@ -6,7 +6,8 @@
 
     var messages = function () {
         var addMessage = function (message) {
-            return $('#messages').append($('<li>').text(message));
+            $('#messages').append($('<li>').text(message));
+            return scrollToBottom();
         };
 
         var sendButtonClicked = function (text) {
@@ -24,12 +25,15 @@
             return $('#chat-box').val('');
         };
 
+        var scrollToBottom = function() {
+            return $('.message-list').animate({scrollTop: $('.message-list').prop('scrollHeight')}, 1000);
+        };
+
         var registerSockets = function () {
-            socket.on('player-joined', function (data) {
+            socket.on('chat-message', function (data) {
                 addMessage(data.message);
             });
-
-            socket.on('chat-message', function (data) {
+            socket.on('player-action', function (data) {
                 addMessage(data.message);
             });
         };
@@ -46,7 +50,8 @@
 
         return {
             listen: registerSockets,
-            registerSendButtonListener: registerSendButtonListener
+            registerSendButtonListener: registerSendButtonListener,
+            addMessage: addMessage
         };
     };
 

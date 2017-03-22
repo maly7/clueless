@@ -20,7 +20,11 @@ a {
 
 .message-list {
   overflow: auto;
-  height: 250px;
+  height: 435px;
+}
+
+.clickable-td {
+  
 }
 
 .empty {
@@ -82,4 +86,14 @@ a {
 
 .bold {
   font-weight: bold;
+}
+
+.waiting-message {
+  text-align: center;
+  color: red;
+}
+
+.ready-message {
+  text-align: center;
+  color: green;
 }
