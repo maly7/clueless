@@ -26,6 +26,10 @@ a {
   
 }
 
+.clickable-td:hover {
+  background-color: gray !important; 
+}
+
 .empty {
   background-color: lightgray;
 }

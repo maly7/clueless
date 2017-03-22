@@ -22,7 +22,8 @@
         var player = getCurrentPlayer();
         var message = 'Player ' + player.playerNumber + '\'s turn';
         gameNsp.clients().sockets[GAME_NAMESPACE + '#' + player.id].emit('player-turn', {
-            'message': message
+            'message': message,
+            'position': player.position
         });
         gameNsp.emit('game-status', {
             'message': message

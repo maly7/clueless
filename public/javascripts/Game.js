@@ -20,6 +20,7 @@
     var registerEndTurnButton = function () {
         $(endTurnButton).click(function () {
             gameSocket.emit('end-turn', {});
+            disableCellClicks();
             disableButtons();
         });
     };
@@ -38,6 +39,25 @@
         return;
     };
 
+    var makeCellsClickable = function (position) {
+        var posArray = position.split('-');
+        var yCoord = parseInt(posArray[0]);
+        var xCoord = parseInt(posArray[1]);
+        makeCellClickable(yCoord, xCoord - 1);
+        makeCellClickable(yCoord, xCoord + 1);
+        makeCellClickable(yCoord - 1, xCoord);
+        makeCellClickable(yCoord + 1, xCoord);
+    };
+
+    var makeCellClickable = function (y, x) {
+        console.log('making cell ' + y + '-' + x + ' clickable');
+        $('#' + y + '-' + x).addClass('td-clickable');
+    };
+
+    var disableCellClicks = function () {
+        return $('.td-clickable').removeClass('td-clickable');
+    };
+
     var listenToSocket = function () {
         gameSocket.on('game-started', function (data) {
             messages.addMessage(data.message);
@@ -45,6 +65,7 @@
         });
         gameSocket.on('player-turn', function (data) {
             enableButtons();
+            makeCellsClickable(data.position);
         });
         gameSocket.on('game-status', function (data) {
             messages.addMessage(data.message);

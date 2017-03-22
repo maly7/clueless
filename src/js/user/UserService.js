@@ -103,7 +103,7 @@
                 connectedPlayers++;
                 registerCharacterSelect(stripId(socket.id), data.character);
                 socket.broadcast.emit('available-characters', {
-                    'characters': availableCharacters
+                    'characters': getAvailableCharacters()
                 });
                 characterNsp.emit('player-count', {
                     'count': connectedPlayers
