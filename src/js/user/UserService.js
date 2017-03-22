@@ -5,7 +5,27 @@
     var PLAYER_NAMESPACE = '/players';
     var CHARACTER_NAMESPACE = '/characters';
 
-    var availableCharacters = ['Col. Mustard', 'Ms. Scarlet', 'Mrs. White', 'Rev. Green', 'Mrs. Peacock', 'Prof. Plum'];
+    // var availableCharacters = ['Col. Mustard', 'Ms. Scarlet', 'Mrs. White', 'Rev. Green', 'Mrs. Peacock', 'Prof. Plum'];
+
+    var availableCharacters = [{
+        name: 'Col. Mustard',
+        position: '3-9'
+    }, {
+        name: 'Ms. Scarlet',
+        position: '1-7'
+    }, {
+        name: 'Mrs. White',
+        position: '9-7'
+    }, {
+        name: 'Rev. Green',
+        position: '9-3'
+    }, {
+        name: 'Mrs. Peacock',
+        position: '7-1'
+    }, {
+        name: 'Prof. Plum',
+        position: '3-1'
+    }];
 
     var userService = {};
     var users = {};
@@ -36,10 +56,12 @@
     };
 
     var registerCharacterSelect = function (id, character) {
+        var selectedCharacter = _.find(availableCharacters, ['name', character]);
         _.remove(availableCharacters, function (val) {
-            return val === character;
+            return val.name === character;
         });
-        users[id].character = character;
+        users[id].character = selectedCharacter.name;
+        users[id].position = selectedCharacter.position;
         users[id].active = true;
         return;
     };
@@ -96,7 +118,7 @@
     };
 
     userService.getAvailableCharacters = function () {
-        return availableCharacters;
+        return _.map(availableCharacters, 'name');
     };
 
     userService.getUserFromSocketId = getUserFromSocketId;

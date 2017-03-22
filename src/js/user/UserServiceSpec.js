@@ -41,10 +41,16 @@ describe('UserService', function () {
             expect(user.character).toEqual('Ms. Scarlet');
         });
         it('should mark the player as active', function () {
-            userService.registerCharacterSelect('abcdefg', 'Ms. Scarlet');
+            userService.registerCharacterSelect('abcdefg', 'Mrs. White');
             var user = userService.getUser('abcdefg');
 
             expect(user.active).toBe(true);
+        });
+        it('should assign a starting position to the player', function () {
+            userService.registerCharacterSelect('abcdefg', 'Rev. Green');
+            var user = userService.getUser('abcdefg');
+
+            expect(user.position).toEqual('9-3');
         });
     });
 
@@ -52,7 +58,7 @@ describe('UserService', function () {
         it('should only return users who are active and have selected characters', function () {
             userService.addUser('qwerty');
             userService.addUser('plssss');
-            userService.registerCharacterSelect('plssss', 'Rev. Green');
+            userService.registerCharacterSelect('plssss', 'Prof. Plum');
 
             var players = userService.getPlayers();
             expect(players.length).toEqual(2);
