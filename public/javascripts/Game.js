@@ -50,8 +50,13 @@
     };
 
     var makeCellClickable = function (y, x) {
-        console.log('making cell ' + y + '-' + x + ' clickable');
-        $('#' + y + '-' + x).addClass('td-clickable');
+        if (cellShouldBeMadeClickable(y, x) === true) {
+            $('#' + y + '-' + x).addClass('td-clickable');
+        }
+    };
+
+    var cellShouldBeMadeClickable = function(y, x) {
+        return $('#' + y + '-' + x).attr('class').indexOf('empty') < 0;
     };
 
     var disableCellClicks = function () {
