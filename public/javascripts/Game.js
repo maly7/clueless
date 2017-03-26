@@ -76,7 +76,7 @@
     };
 
     var cellShouldBeMadeClickable = function (y, x) {
-        return cellDoesNotContainEmpty(y, x);
+        return cellDoesNotContainEmpty(y, x) && cellDoesNotContainCharacter(y, x);
     };
 
     var cellDoesNotContainEmpty = function (y, x) {
@@ -84,9 +84,14 @@
     };
 
     var cellDoesNotContainCharacter = function (y, x) {
-        return _.find(playerClasses, function (character) {
-            return $('#' + y + '-' + x).attr('class').indexOf(character) >= 0;
-        }) === undefined;
+        for (var i = 0; i < playerClasses.length; i++) {
+            var cssClass = playerClasses[i];
+            console.log('class attr: ' + $('#' + y + '-' + x).attr('class'));
+            if ($('#' + y + '-' + x).attr('class').indexOf(cssClass) >= 0) {
+                return false;
+            }
+        }
+        return true;
     };
 
     var disableCellClicks = function () {
