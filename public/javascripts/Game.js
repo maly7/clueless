@@ -15,10 +15,10 @@
     var playerPosition = '';
 
     var secretPassageMap = {
-        '2-8': '8-2',
-        '8-2': '2-8',
-        '2-2': '8-8',
-        '8-8': '2-2'
+        '2-8': ['8-1', '9-1', '9-2', '8-2'],
+        '8-2': ['1-8', '1-9', '2-9', '2-8'],
+        '2-2': ['8-9', '9-9', '9=8', '8-8'],
+        '8-8': ['1-2', '1-1', '2-1', '2-2']
     };
 
     var startGame = function () {
@@ -73,11 +73,23 @@
             console.log('player class is: ' + playerClass);
             $(this).addClass(playerClass);
             if ($(this).attr('class').indexOf('secret') >= 0) {
-                playerPosition = secretPassageMap[id];
+                playerPosition = findFirstCellWithoutCharacter(secretPassageMap[id], playerPosition);
             } else {
                 playerPosition = id;
             }
         });
+    };
+
+    var findFirstCellWithoutCharacter = function (cellList, currentPos) {
+        for (var i = 0; i < cellList.length; i++) {
+            var posArray = cellList[i].split('-');
+            var y = parseInt(posArray[0]);
+            var x = parseInt(posArray[1]);
+            if (cellDoesNotContainCharacter(y, x)) {
+                return cellList[i];
+            }
+        }
+        return currentPos;
     };
 
     var makeCellClickable = function (y, x) {
@@ -97,7 +109,6 @@
     var cellDoesNotContainCharacter = function (y, x) {
         for (var i = 0; i < playerClasses.length; i++) {
             var cssClass = playerClasses[i];
-            console.log('class attr: ' + $('#' + y + '-' + x).attr('class'));
             if ($('#' + y + '-' + x).attr('class').indexOf(cssClass) >= 0) {
                 return false;
             }
