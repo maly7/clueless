@@ -22,12 +22,12 @@ a {
   height: 360px;
 }
 
-.clickable-td {
+td.clickable-td {
   
 }
 
-.clickable-td:hover {
-  background-color: gray !important; 
+.hover-td {
+  background-color: black !important;
 }
 
 .empty {

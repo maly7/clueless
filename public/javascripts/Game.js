@@ -9,6 +9,8 @@
     var gameRunning = false;
     var gameSocket = {};
 
+    var playerClasses = ['mustard', 'scarlet', 'white', 'green', 'peacock', 'plum'];
+
     var startGame = function () {
         gameRunning = true;
         gameSocket.emit('start-game', {
@@ -47,6 +49,9 @@
         makeCellClickable(yCoord, xCoord + 1);
         makeCellClickable(yCoord - 1, xCoord);
         makeCellClickable(yCoord + 1, xCoord);
+        $('.td-clickable').hover(function () {
+            $(this).toggleClass('hover-td');
+        });
     };
 
     var makeCellClickable = function (y, x) {
@@ -55,11 +60,22 @@
         }
     };
 
-    var cellShouldBeMadeClickable = function(y, x) {
+    var cellShouldBeMadeClickable = function (y, x) {
+        return cellDoesNotContainEmpty(y, x);
+    };
+
+    var cellDoesNotContainEmpty = function (y, x) {
         return $('#' + y + '-' + x).attr('class').indexOf('empty') < 0;
     };
 
+    var cellDoesNotContainCharacter = function (y, x) {
+        return _.find(playerClasses, function (character) {
+            return $('#' + y + '-' + x).attr('class').indexOf(character) >= 0;
+        }) === undefined;
+    };
+
     var disableCellClicks = function () {
+        $('.td-clickable').off();
         return $('.td-clickable').removeClass('td-clickable');
     };
 
