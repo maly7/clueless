@@ -14,6 +14,13 @@
     var playerClass = '';
     var playerPosition = '';
 
+    var secretPassageMap = {
+        '2-8': '8-2',
+        '8-2': '2-8',
+        '2-2': '8-8',
+        '8-8': '2-2'
+    };
+
     var startGame = function () {
         gameRunning = true;
         gameSocket.emit('start-game', {
@@ -65,7 +72,11 @@
             console.log(id + ' was clicked');
             console.log('player class is: ' + playerClass);
             $(this).addClass(playerClass);
-            playerPosition = id;
+            if ($(this).attr('class').indexOf('secret') >= 0) {
+                playerPosition = secretPassageMap[id];
+            } else {
+                playerPosition = id;
+            }
         });
     };
 
