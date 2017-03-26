@@ -1,6 +1,7 @@
 (function () {
     'use strict';
     var messages = require('./Messages');
+    var cellUtils = require('./CellUtils');
 
     var welcomeModal = '#welcome-modal';
     var endTurnButton = '#end-turn';
@@ -34,7 +35,7 @@
             gameSocket.emit('end-turn', {
                 position: playerPosition
             });
-            disableCellClicks();
+            cellUtils.disableCellClicks();
             disableButtons();
         });
     };
@@ -53,72 +54,23 @@
         return;
     };
 
-    var makeCellsClickable = function (position) {
-        var posArray = position.split('-');
-        var yCoord = parseInt(posArray[0]);
-        var xCoord = parseInt(posArray[1]);
-        makeCellClickable(yCoord, xCoord - 1);
-        makeCellClickable(yCoord, xCoord + 1);
-        makeCellClickable(yCoord - 1, xCoord);
-        makeCellClickable(yCoord + 1, xCoord);
-
-        $('.td-clickable').hover(function () {
-            $(this).toggleClass('hover-td');
-        });
-
+    var registerCellClicks = function () {
         $('.td-clickable').click(function () {
             $('#' + playerPosition).removeClass(playerClass);
             var id = $(this).attr('id');
-            console.log(id + ' was clicked');
-            console.log('player class is: ' + playerClass);
             $(this).addClass(playerClass);
+                      
             if ($(this).attr('class').indexOf('secret') >= 0) {
-                playerPosition = findFirstCellWithoutCharacter(secretPassageMap[id], playerPosition);
+                playerPosition = cellUtils.findFirstCellWithoutCharacter(secretPassageMap[id], playerPosition);
             } else {
                 playerPosition = id;
             }
         });
     };
 
-    var findFirstCellWithoutCharacter = function (cellList, currentPos) {
-        for (var i = 0; i < cellList.length; i++) {
-            var posArray = cellList[i].split('-');
-            var y = parseInt(posArray[0]);
-            var x = parseInt(posArray[1]);
-            if (cellDoesNotContainCharacter(y, x)) {
-                return cellList[i];
-            }
-        }
-        return currentPos;
-    };
-
-    var makeCellClickable = function (y, x) {
-        if (cellShouldBeMadeClickable(y, x) === true) {
-            $('#' + y + '-' + x).addClass('td-clickable');
-        }
-    };
-
-    var cellShouldBeMadeClickable = function (y, x) {
-        return cellDoesNotContainEmpty(y, x) && cellDoesNotContainCharacter(y, x);
-    };
-
-    var cellDoesNotContainEmpty = function (y, x) {
-        return $('#' + y + '-' + x).attr('class').indexOf('empty') < 0;
-    };
-
-    var cellDoesNotContainCharacter = function (y, x) {
-        for (var i = 0; i < playerClasses.length; i++) {
-            var cssClass = playerClasses[i];
-            if ($('#' + y + '-' + x).attr('class').indexOf(cssClass) >= 0) {
-                return false;
-            }
-        }
-        return true;
-    };
-
-    var disableCellClicks = function () {
-        $('.td-clickable').off();
-        return $('.td-clickable').removeClass('td-clickable');
+    var startPlayerTurn = function (position) {
+        cellUtils.makeCellsClickable(position);
+        registerCellClicks();
     };
 
     var listenToSocket = function () {
@@ -128,7 +80,7 @@
         });
         gameSocket.on('player-turn', function (data) {
             enableButtons();
-            makeCellsClickable(data.position);
+            startPlayerTurn(data.position);
             playerClass = data.cssClass;
             playerPosition = data.position;
         });
