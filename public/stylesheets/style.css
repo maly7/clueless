@@ -27,7 +27,7 @@ td.clickable-td {
 }
 
 .hover-td {
-  background-color: black !important;
+  background-color: transparent !important;
 }
 
 .empty {
