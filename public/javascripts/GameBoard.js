@@ -1,7 +1,10 @@
 (function () {
     'use strict';
     var boardStyling = require('./BoardStyling');
-    var $ = require('jquery');
+    var _ = require('lodash');
+
+    var playerClasses = ['mustard', 'scarlet', 'white', 'green', 'peacock', 'plum'];
+    var gameSocket = {};
 
     var gameBoard = function () {
 
@@ -27,7 +30,25 @@
             });
         };
 
-        var init = function () {
+        var colorCell = function (id, cssClass) {
+            $('#' + id).addClass(cssClass);
+        };
+
+        var listenToSocket = function () {
+            gameSocket.on('mark-positions', function (data) {
+                _.forEach(playerClasses, function (cssClass) {
+                    $('.' + cssClass).removeClass(cssClass);
+                });
+
+                _.forEach(data.players, function (player) {
+                    colorCell(player.position, player.class);
+                });
+            });
+        };
+
+        var init = function (socket) {
+            gameSocket = socket;
+            listenToSocket();
             populateCells();
             registerCellButtonClick();
         };

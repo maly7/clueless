@@ -6,23 +6,29 @@
     var gameNsp = {};
     var playerList = [];
     var gameRunning = false;
-    var currentPlayer = 0;
+    var currentPlayerIndex = 0;
+    var currentPlayer = {};
 
-    var getCurrentPlayer = function () {
-        var player = playerList[currentPlayer];
-        if (currentPlayer + 1 >= playerList.length) {
-            currentPlayer = 0;
+    var getNextPlayer = function () {
+        currentPlayer = playerList[currentPlayerIndex];
+        if (currentPlayerIndex + 1 >= playerList.length) {
+            currentPlayerIndex = 0;
         } else {
-            currentPlayer++;
+            currentPlayerIndex++;
         }
-        return player;
+        return currentPlayer;
     };
 
     var notifyPlayerTurn = function () {
-        var player = getCurrentPlayer();
+        var player = getNextPlayer();
         var message = 'Player ' + player.playerNumber + '\'s turn';
+        gameNsp.emit('mark-positions', {
+            'players': playerList
+        });
         gameNsp.clients().sockets[GAME_NAMESPACE + '#' + player.id].emit('player-turn', {
-            'message': message
+            'message': message,
+            'position': player.position,
+            'cssClass': player.class
         });
         gameNsp.emit('game-status', {
             'message': message
@@ -51,6 +57,7 @@
                 startGame(playerNumber, userService.getPlayers());
             });
             socket.on('end-turn', function (data) {
+                currentPlayer.position = data.position;
                 notifyPlayerTurn();
             });
         });

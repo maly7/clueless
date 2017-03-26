@@ -10,6 +10,7 @@
     var characterSelect = '#character-options';
     var waitingMessage = '#waiting-message';
     var startGameButton = '#start-btn';
+    var characterSelected = false;
 
     var welcome = {};
 
@@ -26,6 +27,7 @@
     var registerSelectButton = function () {
         $(selectButton).click(function () {
             var selectedCharacter = $(characterSelect).val();
+            characterSelected = true;
             $(selectButton).prop('disabled', true);
             $(characterSelect).prop('disabled', true);
 
@@ -52,6 +54,9 @@
     };
 
     var setCharacterOptions = function (characters) {
+        if (characterSelected === true) {
+            return;
+        }
         $(characterSelect).children().remove();
 
         _.forEach(characters, function (character) {

@@ -5,7 +5,31 @@
     var PLAYER_NAMESPACE = '/players';
     var CHARACTER_NAMESPACE = '/characters';
 
-    var availableCharacters = ['Col. Mustard', 'Ms. Scarlet', 'Mrs. White', 'Rev. Green', 'Mrs. Peacock', 'Prof. Plum'];
+    var availableCharacters = [{
+        name: 'Col. Mustard',
+        position: '3-9',
+        class: 'mustard'
+    }, {
+        name: 'Ms. Scarlet',
+        position: '1-7',
+        class: 'scarlet'
+    }, {
+        name: 'Mrs. White',
+        position: '9-7',
+        class: 'white'
+    }, {
+        name: 'Rev. Green',
+        position: '9-3',
+        class: 'green'
+    }, {
+        name: 'Mrs. Peacock',
+        position: '7-1',
+        class: 'peacock'
+    }, {
+        name: 'Prof. Plum',
+        position: '3-1',
+        class: 'plum'
+    }];
 
     var userService = {};
     var users = {};
@@ -36,16 +60,24 @@
     };
 
     var registerCharacterSelect = function (id, character) {
+        var selectedCharacter = _.find(availableCharacters, ['name', character]);
         _.remove(availableCharacters, function (val) {
-            return val === character;
+            return val.name === character;
         });
-        users[id].character = character;
+        users[id].character = selectedCharacter.name;
+        users[id].position = selectedCharacter.position;
+        users[id].class = selectedCharacter.class;
         users[id].active = true;
         return;
     };
 
     var getPlayers = function () {
         return _.filter(users, ['active', true]);
+    };
+
+    
+    var getAvailableCharacters = function () {
+        return _.map(availableCharacters, 'name');
     };
 
     userService.init = function (io) {
@@ -63,7 +95,7 @@
 
         characterNsp.on('connection', function (socket) {
             socket.emit('available-characters', {
-                'characters': availableCharacters,
+                'characters': getAvailableCharacters(),
                 'count': connectedPlayers
             });
 
@@ -71,7 +103,7 @@
                 connectedPlayers++;
                 registerCharacterSelect(stripId(socket.id), data.character);
                 socket.broadcast.emit('available-characters', {
-                    'characters': availableCharacters
+                    'characters': getAvailableCharacters()
                 });
                 characterNsp.emit('player-count', {
                     'count': connectedPlayers
@@ -95,10 +127,7 @@
         return connectedPlayers;
     };
 
-    userService.getAvailableCharacters = function () {
-        return availableCharacters;
-    };
-
+    userService.getAvailableCharacters = getAvailableCharacters;
     userService.getUserFromSocketId = getUserFromSocketId;
     userService.getUser = getUser;
     userService.addUser = addUser;

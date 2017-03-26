@@ -22,12 +22,16 @@ a {
   height: 360px;
 }
 
-.clickable-td {
+td.clickable-td {
   
 }
 
+.hover-td {
+  background-color: transparent !important;
+}
+
 .empty {
-  background-color: white;
+  background-color: lightgray;
 }
 
 .hallway {
@@ -39,16 +43,16 @@ a {
 }
 
 .hall {
-  background: yellow;
+  background: sandybrown;
 }
 
 .lounge {
-  background-color: blue;
-  color: white;
+  background-color: deeppink;
 }
 
 .secret {
-  background-color: red;
+  background-color: black;
+  color: white;
 }
 
 .library {
@@ -56,7 +60,7 @@ a {
 }
 
 .billiard {
-  background-color: green;
+  background-color: limegreen;
 }
 
 .dining {
@@ -68,11 +72,35 @@ a {
 }
 
 .ballroom {
-  background-color: hotpink;
+  background-color: saddlebrown;
 }
 
 .kitchen {
   background-color: teal;
+}
+
+.mustard {
+  background-color: yellow;
+}
+
+.scarlet {
+  background-color: red;
+}
+
+.white {
+  background-color: whitesmoke;
+}
+
+.green {
+  background-color: green;
+}
+
+.peacock {
+  background-color: darkblue;
+}
+
+.plum {
+  background-color: purple;
 }
 
 .board-row {

@@ -1,14 +1,26 @@
 (function () {
     'use strict';
-    var io = require('socket.io-client');
-    var gameSocket = io.connect('http://localhost:3000/game');
     var messages = require('./Messages');
+    var cellUtils = require('./CellUtils');
 
     var welcomeModal = '#welcome-modal';
     var endTurnButton = '#end-turn';
     var makeSuggestionButton = '#make-suggestion';
     var makeAccusationButton = '#make-accusation';
     var gameRunning = false;
+    var gameSocket = {};
+
+    var playerClasses = ['mustard', 'scarlet', 'white', 'green', 'peacock', 'plum'];
+
+    var playerClass = '';
+    var playerPosition = '';
+
+    var secretPassageMap = {
+        '2-8': ['8-1', '9-1', '9-2', '8-2'],
+        '8-2': ['1-8', '1-9', '2-9', '2-8'],
+        '2-2': ['8-9', '9-9', '9=8', '8-8'],
+        '8-8': ['1-2', '1-1', '2-1', '2-2']
+    };
 
     var startGame = function () {
         gameRunning = true;
@@ -20,7 +32,10 @@
 
     var registerEndTurnButton = function () {
         $(endTurnButton).click(function () {
-            gameSocket.emit('end-turn', {});
+            gameSocket.emit('end-turn', {
+                position: playerPosition
+            });
+            cellUtils.disableCellClicks();
             disableButtons();
         });
     };
@@ -39,6 +54,25 @@
         return;
     };
 
+    var registerCellClicks = function () {
+        $('.td-clickable').click(function () {
+            $('#' + playerPosition).removeClass(playerClass);
+            var id = $(this).attr('id');
+            $(this).addClass(playerClass);
+                      
+            if ($(this).attr('class').indexOf('secret') >= 0) {
+                playerPosition = cellUtils.findFirstCellWithoutCharacter(secretPassageMap[id], playerPosition);
+            } else {
+                playerPosition = id;
+            }
+        });
+    };
+
+    var startPlayerTurn = function (position) {
+        cellUtils.makeCellsClickable(position);
+        registerCellClicks();
+    };
+
     var listenToSocket = function () {
         gameSocket.on('game-started', function (data) {
             messages.addMessage(data.message);
@@ -46,13 +80,17 @@
         });
         gameSocket.on('player-turn', function (data) {
             enableButtons();
+            startPlayerTurn(data.position);
+            playerClass = data.cssClass;
+            playerPosition = data.position;
         });
         gameSocket.on('game-status', function (data) {
             messages.addMessage(data.message);
         });
     };
 
-    var init = function () {
+    var init = function (socket) {
+        gameSocket = socket;
         listenToSocket();
         disableButtons();
         registerEndTurnButton();
