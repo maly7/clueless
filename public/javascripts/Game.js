@@ -11,6 +11,9 @@
 
     var playerClasses = ['mustard', 'scarlet', 'white', 'green', 'peacock', 'plum'];
 
+    var playerClass = '';
+    var playerPosition = '';
+
     var startGame = function () {
         gameRunning = true;
         gameSocket.emit('start-game', {
@@ -21,7 +24,9 @@
 
     var registerEndTurnButton = function () {
         $(endTurnButton).click(function () {
-            gameSocket.emit('end-turn', {});
+            gameSocket.emit('end-turn', {
+                position: playerPosition
+            });
             disableCellClicks();
             disableButtons();
         });
@@ -49,8 +54,18 @@
         makeCellClickable(yCoord, xCoord + 1);
         makeCellClickable(yCoord - 1, xCoord);
         makeCellClickable(yCoord + 1, xCoord);
+
         $('.td-clickable').hover(function () {
             $(this).toggleClass('hover-td');
+        });
+
+        $('.td-clickable').click(function () {
+            $('#' + playerPosition).removeClass(playerClass);
+            var id = $(this).attr('id');
+            console.log(id + ' was clicked');
+            console.log('player class is: ' + playerClass);
+            $(this).addClass(playerClass);
+            playerPosition = id;
         });
     };
 
@@ -87,6 +102,8 @@
         gameSocket.on('player-turn', function (data) {
             enableButtons();
             makeCellsClickable(data.position);
+            playerClass = data.cssClass;
+            playerPosition = data.position;
         });
         gameSocket.on('game-status', function (data) {
             messages.addMessage(data.message);

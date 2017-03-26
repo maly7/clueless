@@ -3,6 +3,7 @@
     var boardStyling = require('./BoardStyling');
     var _ = require('lodash');
 
+    var playerClasses = ['mustard', 'scarlet', 'white', 'green', 'peacock', 'plum'];
     var gameSocket = {};
 
     var gameBoard = function () {
@@ -35,8 +36,10 @@
 
         var listenToSocket = function () {
             gameSocket.on('mark-positions', function (data) {
-                console.log('marking positions for:\n' + data);
-                console.log(data.players);
+                _.forEach(playerClasses, function(cssClass) {
+                    $('.' + cssClass).removeClass(cssClass);
+                });
+
                 _.forEach(data.players, function (player) {
                     colorCell(player.position, player.class);
                 });
