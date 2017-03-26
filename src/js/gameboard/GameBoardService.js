@@ -22,6 +22,9 @@
     var notifyPlayerTurn = function () {
         var player = getNextPlayer();
         var message = 'Player ' + player.playerNumber + '\'s turn';
+        gameNsp.emit('mark-positions', {
+            'players': playerList
+        });
         gameNsp.clients().sockets[GAME_NAMESPACE + '#' + player.id].emit('player-turn', {
             'message': message,
             'position': player.position,
@@ -29,9 +32,6 @@
         });
         gameNsp.emit('game-status', {
             'message': message
-        });
-        gameNsp.emit('mark-positions', {
-            'players': playerList
         });
     };
 
