@@ -36,7 +36,7 @@
 
         var listenToSocket = function () {
             gameSocket.on('mark-positions', function (data) {
-                _.forEach(playerClasses, function(cssClass) {
+                _.forEach(playerClasses, function (cssClass) {
                     $('.' + cssClass).removeClass(cssClass);
                 });
 
