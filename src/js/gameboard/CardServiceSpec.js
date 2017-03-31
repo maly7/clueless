@@ -10,4 +10,16 @@ describe('CardService', function () {
             expect(murderCase.weapon).toBeTruthy();
         });
     });
+
+    describe('dealCards', function () {
+        cardService.selectMurderCase();
+        var cards = cardService.dealCards(4);
+
+        it('should divide the cards evenly between the players', function () {
+            expect(cards[1].length).toEqual(5);
+            expect(cards[2].length).toEqual(5);
+            expect(cards[3].length).toEqual(5);
+            expect(cards[4].length).toEqual(5);
+        });
+    });
 });
