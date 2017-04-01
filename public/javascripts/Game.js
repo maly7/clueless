@@ -2,6 +2,7 @@
     'use strict';
     var messages = require('./Messages');
     var cellUtils = require('./CellUtils');
+    var cards = require('./Cards');
 
     var welcomeModal = '#welcome-modal';
     var endTurnButton = '#end-turn';
@@ -90,6 +91,7 @@
         gameSocket.on('cards', function (data) {
             console.log('delt cards: ' + data.cards);
             console.log('extra cards: ' + data.extraCards);
+            cards.init(data.cards, data.extraCards);
         });
     };
 
