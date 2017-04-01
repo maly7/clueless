@@ -89,8 +89,6 @@
             messages.addMessage(data.message);
         });
         gameSocket.on('cards', function (data) {
-            console.log('delt cards: ' + data.cards);
-            console.log('extra cards: ' + data.extraCards);
             cards.init(data.cards, data.extraCards);
         });
     };
