@@ -31,6 +31,16 @@
         $('#card-table tbody').append(tableHtml);
     };
 
+    var addExtraCardList = function() {
+        if (extraCards.length <= 0) {
+            return;
+        }
+
+        var extraCardsText = 'Extra Cards: ';
+        extraCardsText += _.replace(_.toString(extraCards), ',', ', ');
+        return $('#extra-cards').text(extraCardsText);
+    };
+
     var createTableElement = function (list, index) {
         var cardText = _.get(list, '[' + index + ']', '');
         return '<td>' + cardText + '</td>';
@@ -47,6 +57,7 @@
         playerCards = hand;
         extraCards = remainingCards;
         populateCardsTable();
+        addExtraCardList();
     };
 
     var cards = {
