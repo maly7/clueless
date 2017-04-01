@@ -3,9 +3,7 @@
     var _ = require('lodash');
 
     var suspects = ['Ms. Scarlet', 'Col. Mustard', 'Mrs. White', 'Rev. Green', 'Mrs. Peacock', 'Prof. Plum'];
-
     var weapons = ['Candlestick', 'Poison', 'Rope', 'Gloves', 'Horseshoe', 'Knife', 'Lead Pipe', 'Revolver', 'Wrench'];
-
     var rooms = ['Kitchen', 'Ballroom', 'Conservatory', 'Billiard Room', 'Library', 'Study', 'Hall', 'Lounge', 'Dining Room', 'Cellar'];
 
     var allCards = [];
@@ -67,7 +65,7 @@
 
     var dealCardsToPlayers = function (players) {
         var deltHands = dealCards(players.length);
-        
+
         for (var i = 0; i < players.length; i++) {
             players[i].cards = deltHands[players[i].playerNumber];
         }
