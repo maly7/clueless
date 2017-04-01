@@ -65,4 +65,22 @@ describe('CardService', function () {
             expect(cards.remaining.length).toEqual(4);
         });
     });
+
+    describe('dealCardsToPlayers for 3 players', function () {
+        cardService.resetCards();
+        cardService.selectMurderCase();
+        var players = [{
+            'playerNumber': 1
+        }, {
+            'playerNumber': 2
+        }, {
+            'playerNumber': 3
+        }];
+        var remaining = cardService.dealCardsToPlayers(players);
+        it('should set cards for each player properly', function () {
+            expect(players[0].cards.length).toEqual(7);
+            expect(players[1].cards.length).toEqual(7);
+            expect(players[2].cards.length).toEqual(7);
+        });
+    });
 });

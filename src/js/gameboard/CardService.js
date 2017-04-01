@@ -65,10 +65,21 @@
         return deltCards;
     };
 
+    var dealCardsToPlayers = function (players) {
+        var deltHands = dealCards(players.length);
+        
+        for (var i = 0; i < players.length; i++) {
+            players[i].cards = deltHands[players[i].playerNumber];
+        }
+
+        return deltHands.remaining;
+    };
+
     var cardService = {
         resetCards: resetCards,
         selectMurderCase: selectMurderCase,
-        dealCards: dealCards
+        dealCards: dealCards,
+        dealCardsToPlayers: dealCardsToPlayers
     };
 
     module.exports = cardService;
