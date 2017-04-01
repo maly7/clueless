@@ -59,7 +59,7 @@
             $('#' + playerPosition).removeClass(playerClass);
             var id = $(this).attr('id');
             $(this).addClass(playerClass);
-                      
+
             if ($(this).attr('class').indexOf('secret') >= 0) {
                 playerPosition = cellUtils.findFirstCellWithoutCharacter(secretPassageMap[id], playerPosition);
             } else {
@@ -86,6 +86,10 @@
         });
         gameSocket.on('game-status', function (data) {
             messages.addMessage(data.message);
+        });
+        gameSocket.on('cards', function (data) {
+            console.log('delt cards: ' + data.cards);
+            console.log('extra cards: ' + data.extraCards);
         });
     };
 

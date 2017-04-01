@@ -38,20 +38,25 @@
         });
     };
 
+    var notifyPlayerOfCards = function(player) {
+        gameNsp.clients().sockets[GAME_NAMESPACE + '#' + player.id].emit('cards', {
+            'cards': player.cards,
+            'extraCards': extraCards
+        });
+    };
+
     var startGame = function (playerNumber, players) {
         console.log('game started!');
+        playerList = players;
+        solution = cardDealer.selectMurderCase();
+        extraCards = cardDealer.dealCardsToPlayers(playerList);
 
         var message = 'Player ' + playerNumber + ' started the game!';
         gameNsp.emit('game-started', {
             'message': message
         });
 
-        playerList = players;
-
-        solution = cardDealer.selectMurderCase();
-        extraCards = cardDealer.dealCardsToPlayers(playerList);
-
-        console.log(playerList);
+        _.forEach(playerList, notifyPlayerOfCards);
 
         gameRunning = true;
         notifyPlayerTurn();
