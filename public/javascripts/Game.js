@@ -2,6 +2,7 @@
     'use strict';
     var messages = require('./Messages');
     var cellUtils = require('./CellUtils');
+    var cards = require('./Cards');
 
     var welcomeModal = '#welcome-modal';
     var endTurnButton = '#end-turn';
@@ -59,7 +60,7 @@
             $('#' + playerPosition).removeClass(playerClass);
             var id = $(this).attr('id');
             $(this).addClass(playerClass);
-                      
+
             if ($(this).attr('class').indexOf('secret') >= 0) {
                 playerPosition = cellUtils.findFirstCellWithoutCharacter(secretPassageMap[id], playerPosition);
             } else {
@@ -86,6 +87,9 @@
         });
         gameSocket.on('game-status', function (data) {
             messages.addMessage(data.message);
+        });
+        gameSocket.on('cards', function (data) {
+            cards.init(data.cards, data.extraCards);
         });
     };
 

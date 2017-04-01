@@ -8,6 +8,9 @@
     var gameRunning = false;
     var currentPlayerIndex = 0;
     var currentPlayer = {};
+    var cardDealer = {};
+    var solution = {};
+    var extraCards = [];
 
     var getNextPlayer = function () {
         currentPlayer = playerList[currentPlayerIndex];
@@ -35,21 +38,33 @@
         });
     };
 
+    var notifyPlayerOfCards = function(player) {
+        gameNsp.clients().sockets[GAME_NAMESPACE + '#' + player.id].emit('cards', {
+            'cards': player.cards,
+            'extraCards': extraCards
+        });
+    };
+
     var startGame = function (playerNumber, players) {
         console.log('game started!');
+        playerList = players;
+        solution = cardDealer.selectMurderCase();
+        extraCards = cardDealer.dealCardsToPlayers(playerList);
 
         var message = 'Player ' + playerNumber + ' started the game!';
         gameNsp.emit('game-started', {
             'message': message
         });
 
-        playerList = players;
+        _.forEach(playerList, notifyPlayerOfCards);
+
         gameRunning = true;
         notifyPlayerTurn();
     };
 
-    var init = function (io, userService) {
+    var init = function (io, userService, cardService) {
         gameNsp = io.of(GAME_NAMESPACE);
+        cardDealer = cardService;
 
         gameNsp.on('connection', function (socket) {
             socket.on('start-game', function (data) {

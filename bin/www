@@ -10,6 +10,7 @@ var http = require('http');
 var io = require('socket.io');
 var userService = require('../src/js/user/UserService');
 var gameBoardService = require('../src/js/gameboard/GameBoardService');
+var cardService = require('../src/js/gameboard/CardService');
 
 /**
  * Get port from environment and store in Express.
@@ -26,7 +27,7 @@ var server = http.createServer(app);
 var socketIO = io.listen(server);
 
 userService.init(socketIO);
-gameBoardService.init(socketIO, userService);
+gameBoardService.init(socketIO, userService, cardService);
 app.set('userService', userService);
 app.set('gameBoardService', gameBoardService);
 

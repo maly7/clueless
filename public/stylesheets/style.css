@@ -124,3 +124,7 @@ td.clickable-td {
   text-align: center;
   color: green;
 }
+
+.card-table {
+  margin-left: 10px;
+}
