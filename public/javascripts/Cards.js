@@ -30,7 +30,7 @@
         $('#card-table tbody').append(tableHtml);
     };
 
-    var addExtraCardList = function() {
+    var addExtraCardList = function () {
         if (extraCards.length <= 0) {
             return;
         }
