@@ -11,7 +11,6 @@
     var extraCards = [];
 
     var populateCardsTable = function () {
-        // Suspects | Weapons | Rooms
         var playerSuspects = findCardsOfType(suspects);
         var playerWeapons = findCardsOfType(weapons);
         var playerRooms = findCardsOfType(rooms);
@@ -48,12 +47,11 @@
 
     var findCardsOfType = function (type) {
         return _.filter(playerCards, function (card) {
-            return _.indexOf(type, card) > 0;
+            return _.indexOf(type, card) >= 0;
         });
     };
 
     var init = function (hand, remainingCards) {
-        console.log('init on cards called');
         playerCards = hand;
         extraCards = remainingCards;
         populateCardsTable();
