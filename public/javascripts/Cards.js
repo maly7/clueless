@@ -36,9 +36,9 @@
             return;
         }
 
-        var extraCardsText = 'Extra Cards: ';
+        var extraCardsText = '<strong>Extra Cards</strong>: ';
         extraCardsText += _.replace(_.toString(extraCards), ',', ', ');
-        return $('#extra-cards').text(extraCardsText);
+        return $('#extra-cards').append(extraCardsText);
     };
 
     var createTableElement = function (list, index) {
