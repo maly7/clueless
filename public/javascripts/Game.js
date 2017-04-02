@@ -3,6 +3,7 @@
     var messages = require('./Messages');
     var cellUtils = require('./CellUtils');
     var cards = require('./Cards');
+    var accusation = require('./Accusation');
 
     var welcomeModal = '#welcome-modal';
     var endTurnButton = '#end-turn';
@@ -90,6 +91,7 @@
         });
         gameSocket.on('cards', function (data) {
             cards.init(data.cards, data.extraCards);
+            accusation.init(gameSocket, cards.getSortedPlayerCards(), data.extraCards);
         });
     };
 
