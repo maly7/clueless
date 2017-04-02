@@ -9,6 +9,7 @@
     var suspectSelect = '#suspect-select';
     var roomSelect = '#room-select';
     var weaponSelect = '#weapon-select';
+    var accuseButton = '#confirm-accuse';
 
     var gameSocket = {};
     var cards = {};
@@ -30,12 +31,25 @@
         });
     };
 
+    var registerAccuseButton = function () {
+        $(accuseButton).click(function () {
+            var accusation = {
+                'suspect': $(suspectSelect).val(),
+                'weapon': $(weaponSelect).val(),
+                'room': $(roomSelect).val()
+            };
+
+            gameSocket.emit('make-accusation', accusation);
+        });
+    };
+
     var init = function (socket, playerCards, extraCards) {
         gameSocket = socket;
         cards = playerCards;
         excessCards = extraCards;
 
         populateSelections();
+        registerAccuseButton();
     };
 
     var accusation = {

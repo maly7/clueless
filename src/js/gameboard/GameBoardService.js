@@ -75,6 +75,10 @@
                 currentPlayer.position = data.position;
                 notifyPlayerTurn();
             });
+            socket.on('make-accusation', function(data) {
+                var id = socket.id;
+                console.log('Player with id ' + id + ' accuses ' + data.suspect + ' with the ' + data.weapon + ' in the ' + data.room);
+            });
         });
     };
 
