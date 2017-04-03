@@ -14,28 +14,21 @@
 
     var getNextPlayer = function () {
         currentPlayer = playerList[currentPlayerIndex];
-        findNextEligiblePlayer();
-        return currentPlayer;
-    };
-
-    var findNextEligiblePlayer = function () {
         if (currentPlayerIndex + 1 >= playerList.length) {
             currentPlayerIndex = 0;
         } else {
             currentPlayerIndex++;
         }
-
-        while (!playerList[currentPlayerIndex].active) {
-            if (currentPlayerIndex >= playerList.length) {
-                currentPlayerIndex = 0;
-            } else {
-                currentPlayerIndex++;
-            }
-        }
+        return currentPlayer;
     };
 
     var notifyPlayerTurn = function () {
         var player = getNextPlayer();
+
+        if (!player.active) {
+            return notifyPlayerTurn();
+        }
+
         var message = 'Player ' + player.playerNumber + '\'s turn';
         gameNsp.emit('mark-positions', {
             'players': playerList
@@ -43,7 +36,8 @@
         gameNsp.clients().sockets[GAME_NAMESPACE + '#' + player.id].emit('player-turn', {
             'message': message,
             'position': player.position,
-            'cssClass': player.class
+            'cssClass': player.class,
+            'active': player.active
         });
         gameNsp.emit('game-status', {
             'message': message
