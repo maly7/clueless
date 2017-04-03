@@ -86,7 +86,10 @@
         });
     };
 
-    var notifyPlayerOfIncorrectAccusation = function (id) {
+    var notifyPlayerOfIncorrectAccusation = function (id, accusation, playerNumber) {
+        gameNsp.emit('game-status', {
+            'message': 'Player ' + playerNumber + ' incorrectly accused ' + accusation.suspect + ' with the ' + accusation.weapon + ' in the ' + accusation.room
+        });
         return gameNsp.clients().sockets[id].emit('game-lost', solution);
     };
 
@@ -111,7 +114,7 @@
                     notifyWinningPlayer(id);
                     notifyPlayersGameOver(socket);
                 } else {
-                    notifyPlayerOfIncorrectAccusation(id);
+                    notifyPlayerOfIncorrectAccusation(id, data, currentPlayer.playerNumber);
                     currentPlayer.active = false;
                 }
             });
