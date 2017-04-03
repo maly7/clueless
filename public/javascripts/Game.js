@@ -34,13 +34,23 @@
 
     var registerEndTurnButton = function () {
         $(endTurnButton).click(function () {
-            gameSocket.emit('end-turn', {
-                position: playerPosition
-            });
-            cellUtils.disableCellClicks();
-            disableButtons();
+            endTurn();
         });
     };
+
+    var registerCloseGameLostButton = function() {
+        $('#game-lost-close').click(function() {
+            endTurn();
+        });
+    };
+
+    var endTurn = function () {
+        gameSocket.emit('end-turn', {
+            position: playerPosition
+        });
+        cellUtils.disableCellClicks();
+        disableButtons();;
+    }
 
     var disableButtons = function () {
         $(endTurnButton).prop('disabled', true);
@@ -92,6 +102,11 @@
         gameSocket.on('cards', function (data) {
             cards.init(data.cards, data.extraCards);
             accusation.init(gameSocket, cards.getSortedPlayerCards(), data.extraCards);
+        });
+        gameSocket.on('game-lost', function (data) {
+            $('#solution-text').append('<p>Unfortunately the correct solution is ' + data.suspect + ' with the ' + data.weapon + ' in the ' + data.room + '.</p>');
+            $('#game-lost-modal').modal('show');
+            registerCloseGameLostButton();
         });
     };
 
