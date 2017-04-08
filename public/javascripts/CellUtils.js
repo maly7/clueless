@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     var playerClasses = ['mustard', 'scarlet', 'white', 'green', 'peacock', 'plum'];
@@ -37,7 +37,7 @@
         '1-6': ['2-4', '0-4', '0-5', '0-6', '2-6', '1-5']
     };
 
-    var makeCellsClickable = function(position) {
+    var makeCellsClickable = function (position) {
         var posArray = position.split('-');
         var yCoord = parseInt(posArray[0]);
         var xCoord = parseInt(posArray[1]);
@@ -46,12 +46,12 @@
         makeCellClickable(yCoord - 1, xCoord);
         makeCellClickable(yCoord + 1, xCoord);
 
-        $('.td-clickable').hover(function() {
+        $('.td-clickable').hover(function () {
             $(this).toggleClass('hover-td');
         });
     };
 
-    var findFirstCellWithoutCharacter = function(cellList, currentPos) {
+    var findFirstCellWithoutCharacter = function (cellList, currentPos) {
         for (var i = 0; i < cellList.length; i++) {
             var posArray = cellList[i].split('-');
             var y = parseInt(posArray[0]);
@@ -63,21 +63,21 @@
         return currentPos;
     };
 
-    var makeCellClickable = function(y, x) {
+    var makeCellClickable = function (y, x) {
         if (cellShouldBeMadeClickable(y, x) === true) {
             $('#' + y + '-' + x).addClass('td-clickable');
         }
     };
 
-    var cellShouldBeMadeClickable = function(y, x) {
+    var cellShouldBeMadeClickable = function (y, x) {
         return cellDoesNotContainEmpty(y, x) && cellDoesNotContainCharacter(y, x);
     };
 
-    var cellDoesNotContainEmpty = function(y, x) {
+    var cellDoesNotContainEmpty = function (y, x) {
         return $('#' + y + '-' + x).attr('class').indexOf('empty') < 0;
     };
 
-    var cellDoesNotContainCharacter = function(y, x) {
+    var cellDoesNotContainCharacter = function (y, x) {
         for (var i = 0; i < playerClasses.length; i++) {
             var cssClass = playerClasses[i];
             if ($('#' + y + '-' + x).attr('class').indexOf(cssClass) >= 0) {
@@ -87,12 +87,12 @@
         return true;
     };
 
-    var disableCellClicks = function() {
+    var disableCellClicks = function () {
         $('.td-clickable').off();
         return $('.td-clickable').removeClass('td-clickable');
     };
 
-    var findNearestCellForPlayerOutOfGame = function(position) {
+    var findNearestCellForPlayerOutOfGame = function (position) {
         var possibleLocations = playerPositionMap[position];
 
         if (possibleLocations === undefined) {
