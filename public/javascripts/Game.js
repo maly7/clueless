@@ -116,6 +116,14 @@
                 keyboard: false
             });
         });
+        gameSocket.on('game-over', function (data) {
+            var solution = data.solution;
+            $('#solution-lost-text').append('<p>Player ' + data.player + ' correctly deduced that it was ' + solution.suspect + ' with the ' + solution.weapon + ' in the ' + solution.room + '!</p>');
+            $('#game-over-modal').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+        });
     };
 
     var init = function (socket) {
