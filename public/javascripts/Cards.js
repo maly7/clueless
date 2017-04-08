@@ -10,11 +10,11 @@
     var playerCards = [];
     var extraCards = [];
 
-    var populateCardsTable = function () {
-        var playerSuspects = findCardsOfType(suspects);
-        var playerWeapons = findCardsOfType(weapons);
-        var playerRooms = findCardsOfType(rooms);
+    var playerSuspects = []
+    var playerWeapons = [];
+    var playerRooms = [];
 
+    var populateCardsTable = function () {
         var lengths = [playerSuspects.length, playerWeapons.length, playerRooms.length];
         var maxLength = _.max(lengths);
         var tableHtml = '';
@@ -51,15 +51,29 @@
         });
     };
 
+    var getSortedPlayerCards = function () {
+        return {
+            'suspects': playerSuspects,
+            'weapons': playerWeapons,
+            'rooms': playerRooms
+        }
+    };
+
     var init = function (hand, remainingCards) {
         playerCards = hand;
         extraCards = remainingCards;
+
+        playerSuspects = findCardsOfType(suspects);
+        playerWeapons = findCardsOfType(weapons);
+        playerRooms = findCardsOfType(rooms);
+
         populateCardsTable();
         addExtraCardList();
     };
 
     var cards = {
-        init: init
+        init: init,
+        getSortedPlayerCards: getSortedPlayerCards
     };
 
     module.exports = cards;

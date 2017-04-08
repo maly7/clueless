@@ -3,6 +3,7 @@
     var messages = require('./Messages');
     var cellUtils = require('./CellUtils');
     var cards = require('./Cards');
+    var accusation = require('./Accusation');
 
     var welcomeModal = '#welcome-modal';
     var endTurnButton = '#end-turn';
@@ -33,12 +34,23 @@
 
     var registerEndTurnButton = function () {
         $(endTurnButton).click(function () {
-            gameSocket.emit('end-turn', {
-                position: playerPosition
-            });
-            cellUtils.disableCellClicks();
-            disableButtons();
+            endTurn();
         });
+    };
+
+    var registerCloseGameLostButton = function () {
+        $('#game-lost-close').click(function () {
+            playerPosition = cellUtils.findNearestCellForPlayerOutOfGame(playerPosition);
+            endTurn();
+        });
+    };
+
+    var endTurn = function () {
+        gameSocket.emit('end-turn', {
+            position: playerPosition
+        });
+        cellUtils.disableCellClicks();
+        disableButtons();
     };
 
     var disableButtons = function () {
@@ -90,6 +102,27 @@
         });
         gameSocket.on('cards', function (data) {
             cards.init(data.cards, data.extraCards);
+            accusation.init(gameSocket, cards.getSortedPlayerCards(), data.extraCards);
+        });
+        gameSocket.on('game-lost', function (data) {
+            $('#solution-text').append('<p>Unfortunately the correct solution is ' + data.suspect + ' with the ' + data.weapon + ' in the ' + data.room + '.</p>');
+            $('#game-lost-modal').modal('show');
+            registerCloseGameLostButton();
+        });
+        gameSocket.on('game-won', function (data) {
+            $('#solution-winning-text').append('<p>Correct! It was ' + data.suspect + ' with the ' + data.weapon + ' in the ' + data.room + '!</p>');
+            $('#game-won-modal').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+        });
+        gameSocket.on('game-over', function (data) {
+            var solution = data.solution;
+            $('#solution-lost-text').append('<p>Player ' + data.player + ' correctly deduced that it was ' + solution.suspect + ' with the ' + solution.weapon + ' in the ' + solution.room + '!</p>');
+            $('#game-over-modal').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
         });
     };
 

@@ -3,4 +3,5 @@ div(class='row text-center')
     div(class='btn-group')
         button#end-turn(class='btn btn-primary') End Turn
         button#make-suggestion(class='btn btn-warning') Make Suggestion
-        button#make-accusation(class='btn btn-danger') Make Accusation
+        button#make-accusation(class='btn btn-danger' data-toggle='modal' data-target='#accusation-modal') Make Accusation
+include ./accusation

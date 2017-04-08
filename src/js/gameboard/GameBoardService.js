@@ -24,6 +24,11 @@
 
     var notifyPlayerTurn = function () {
         var player = getNextPlayer();
+
+        if (!player.active) {
+            return notifyPlayerTurn();
+        }
+
         var message = 'Player ' + player.playerNumber + '\'s turn';
         gameNsp.emit('mark-positions', {
             'players': playerList
@@ -31,14 +36,15 @@
         gameNsp.clients().sockets[GAME_NAMESPACE + '#' + player.id].emit('player-turn', {
             'message': message,
             'position': player.position,
-            'cssClass': player.class
+            'cssClass': player.class,
+            'active': player.active
         });
         gameNsp.emit('game-status', {
             'message': message
         });
     };
 
-    var notifyPlayerOfCards = function(player) {
+    var notifyPlayerOfCards = function (player) {
         gameNsp.clients().sockets[GAME_NAMESPACE + '#' + player.id].emit('cards', {
             'cards': player.cards,
             'extraCards': extraCards
@@ -50,6 +56,7 @@
         playerList = players;
         solution = cardDealer.selectMurderCase();
         extraCards = cardDealer.dealCardsToPlayers(playerList);
+        console.log('Game solution: ' + solution.suspect + ' with the ' + solution.weapon + ' in the ' + solution.room);
 
         var message = 'Player ' + playerNumber + ' started the game!';
         gameNsp.emit('game-started', {
@@ -60,6 +67,30 @@
 
         gameRunning = true;
         notifyPlayerTurn();
+    };
+
+    var checkAccusation = function (accusation) {
+        return accusation.weapon === solution.weapon &&
+            accusation.suspect === solution.suspect &&
+            accusation.room === solution.room;
+    };
+
+    var notifyWinningPlayer = function (id) {
+        return gameNsp.clients().sockets[id].emit('game-won', solution);
+    };
+
+    var notifyPlayersGameOver = function (socket) {
+        return socket.broadcast.emit('game-over', {
+            'solution': solution,
+            'player': currentPlayer.playerNumber
+        });
+    };
+
+    var notifyPlayerOfIncorrectAccusation = function (id, accusation, playerNumber) {
+        gameNsp.emit('game-status', {
+            'message': 'Player ' + playerNumber + ' incorrectly accused ' + accusation.suspect + ' with the ' + accusation.weapon + ' in the ' + accusation.room
+        });
+        return gameNsp.clients().sockets[id].emit('game-lost', solution);
     };
 
     var init = function (io, userService, cardService) {
@@ -74,6 +105,18 @@
             socket.on('end-turn', function (data) {
                 currentPlayer.position = data.position;
                 notifyPlayerTurn();
+            });
+            socket.on('make-accusation', function (data) {
+                var id = socket.id;
+                console.log('Player with id ' + id + ' accuses ' + data.suspect + ' with the ' + data.weapon + ' in the ' + data.room);
+                var isCorrectSolution = checkAccusation(data);
+                if (isCorrectSolution) {
+                    notifyWinningPlayer(id);
+                    notifyPlayersGameOver(socket);
+                } else {
+                    notifyPlayerOfIncorrectAccusation(id, data, currentPlayer.playerNumber);
+                    currentPlayer.active = false;
+                }
             });
         });
     };
