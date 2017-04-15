@@ -4,6 +4,7 @@
     var cellUtils = require('./CellUtils');
     var cards = require('./Cards');
     var accusation = require('./Accusation');
+    var _ = require('lodash');
 
     var welcomeModal = '#welcome-modal';
     var endTurnButton = '#end-turn';
@@ -13,9 +14,11 @@
     var gameSocket = {};
 
     var playerClasses = ['mustard', 'scarlet', 'white', 'green', 'peacock', 'plum'];
+    var rooms = ['hallway', 'study', 'lounge', 'library', 'billiard', 'dining', 'conservatory', 'ballroom', 'kitchen'];
 
     var playerClass = '';
     var playerPosition = '';
+    var playerRoom = '';
 
     var secretPassageMap = {
         '2-8': ['8-1', '9-1', '9-2', '8-2'],
@@ -62,9 +65,12 @@
 
     var enableButtons = function () {
         $(endTurnButton).prop('disabled', false);
-        $(makeSuggestionButton).prop('disabled', false);
         $(makeAccusationButton).prop('disabled', false);
         return;
+    };
+
+    var enableSuggestion = function () {
+        return $(makeSuggestionButton).prop('disabled', false);
     };
 
     var registerCellClicks = function () {
@@ -78,12 +84,21 @@
             } else {
                 playerPosition = id;
             }
+
+            var newRoom = getRoom(playerPosition);
+            if (newRoom !== 'hallway' && newRoom !== playerRoom) {
+                enableSuggestion();
+            }
         });
     };
 
     var startPlayerTurn = function (position) {
         cellUtils.makeCellsClickable(position);
         registerCellClicks();
+    };
+
+    var getRoom = function (position) {
+        return _.intersection($('#' + position).attr('class').split(' '), rooms)[0];
     };
 
     var listenToSocket = function () {
@@ -96,6 +111,7 @@
             startPlayerTurn(data.position);
             playerClass = data.cssClass;
             playerPosition = data.position;
+            playerRoom = getRoom(playerPosition);
         });
         gameSocket.on('game-status', function (data) {
             messages.addMessage(data.message);
