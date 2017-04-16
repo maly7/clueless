@@ -1,6 +1,7 @@
 (function () {
     'use strict';
     var _ = require('lodash');
+    var cellUtils = require('./CellUtils');
 
     var suspects = ['Ms. Scarlet', 'Col. Mustard', 'Mrs. White', 'Rev. Green', 'Mrs. Peacock', 'Prof. Plum'];
     var weapons = ['Candlestick', 'Poison', 'Rope', 'Gloves', 'Horseshoe', 'Knife', 'Lead Pipe', 'Revolver', 'Wrench'];
@@ -17,6 +18,8 @@
         'kitchen': 'Kitchen'
     };
 
+    var makeSuggestionButton = '#make-suggestion';
+    var endTurnButton = '#end-turn';
     var suspectSelect = '#suggest-suspect';
     var roomSelect = '#suggest-room';
     var weaponSelect = '#suggest-weapon';
@@ -56,6 +59,9 @@
             };
 
             gameSocket.emit('make-suggestion', suggestion);
+            $(makeSuggestionButton).prop('disabled', true);
+            $(endTurnButton).prop('disabled', false);
+            cellUtils.disableCellClicks();
         });
     };
 

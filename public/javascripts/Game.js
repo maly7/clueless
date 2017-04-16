@@ -79,6 +79,7 @@
 
     var enableSuggestion = function () {
         registerMakeSuggestionButton();
+        $(endTurnButton).prop('disabled', true);
         return $(makeSuggestionButton).prop('disabled', false);
     };
 
