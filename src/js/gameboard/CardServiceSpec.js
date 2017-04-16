@@ -27,7 +27,7 @@ describe('CardService', function () {
         });
 
         it('should place any remaining cards in the remaining list', function () {
-            expect(cards.remaining.length).toEqual(2);
+            expect(cards.remaining.length).toEqual(1);
         });
     });
 
@@ -43,7 +43,7 @@ describe('CardService', function () {
         });
 
         it('should place any remaining cards in the remaining list', function () {
-            expect(cards.remaining.length).toEqual(1);
+            expect(cards.remaining).toBeUndefined();
         });
     });
 
@@ -62,7 +62,7 @@ describe('CardService', function () {
         });
 
         it('should place any remaining cards in the remaining list', function () {
-            expect(cards.remaining.length).toEqual(4);
+            expect(cards.remaining.length).toEqual(3);
         });
     });
 
