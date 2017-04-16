@@ -20,7 +20,7 @@
     var suspectSelect = '#suggest-suspect';
     var roomSelect = '#suggest-room';
     var weaponSelect = '#suggest-weapon';
-    var confrimSuggest = '#confirm-suggest';
+    var confirmSuggest = '#confirm-suggest';
     var selectedRoom = '';
     var playerPosition = '';
 
@@ -47,7 +47,7 @@
     };
 
     var registerSuggestButton = function () {
-        $(confrimSuggest).click(function () {
+        $(confirmSuggest).click(function () {
             var suggestion = {
                 'suspect': $(suspectSelect).val(),
                 'weapon': $(weaponSelect).val(),
@@ -58,6 +58,7 @@
             gameSocket.emit('make-suggestion', suggestion);
         });
     };
+
 
     var init = function (socket) {
         gameSocket = socket;
