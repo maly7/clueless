@@ -16,7 +16,7 @@
     var gameSocket = {};
 
     var playerClasses = ['mustard', 'scarlet', 'white', 'green', 'peacock', 'plum'];
-    var rooms = ['hallway', 'study', 'lounge', 'library', 'billiard', 'dining', 'conservatory', 'ballroom', 'kitchen'];
+    var rooms = ['hallway', 'study', 'lounge', 'library', 'billiard', 'dining', 'conservatory', 'ballroom', 'kitchen', 'hall'];
 
     var playerClass = '';
     var playerPosition = '';

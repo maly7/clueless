@@ -45,11 +45,24 @@
         });
     };
 
+    var registerSuggestButton = function () {
+        $(confrimSuggest).click(function () {
+            var suggestion = {
+                'suspect': $(suspectSelect).val(),
+                'weapon': $(weaponSelect).val(),
+                'room': selectedRoom
+            };
+
+            gameSocket.emit('make-suggestion', suggestion);
+        });
+    };
+
     var init = function (socket) {
         gameSocket = socket;
 
         initSuspectSelect();
         initWeaponSelect();
+        registerSuggestButton();
     };
 
     var setRoom = function (room) {

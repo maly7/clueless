@@ -75,6 +75,12 @@
             accusation.room === solution.room;
     };
 
+    var handleSuggestion = function (suggestion, socketId) {
+        gameNsp.emit('game-status', {
+            'message': 'Player ' + currentPlayer.playerNumber + ' suggests ' + suggestion.suspect + ' with the ' + suggestion.weapon + ' in the ' + suggestion.room
+        });
+    };
+
     var notifyWinningPlayer = function (id) {
         return gameNsp.clients().sockets[id].emit('game-won', solution);
     };
@@ -117,6 +123,10 @@
                     notifyPlayerOfIncorrectAccusation(id, data, currentPlayer.playerNumber);
                     currentPlayer.active = false;
                 }
+            });
+            socket.on('make-suggestion', function (data) {
+                console.log('Player with id ' + socket.id + ' suggests ' + data.suspect + ' with the ' + data.weapon + ' in the ' + data.room);
+                handleSuggestion(data, socket.id);
             });
         });
     };
