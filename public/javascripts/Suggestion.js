@@ -24,8 +24,11 @@
     var roomSelect = '#suggest-room';
     var weaponSelect = '#suggest-weapon';
     var confirmSuggest = '#confirm-suggest';
+    var suggestInfo = '#suggest-info';
     var selectedRoom = '';
     var playerPosition = '';
+
+    var loadingClass = 'glyphicon glyphicon-refresh glyphicon-refresh-animate';
 
     var gameSocket = {};
 
@@ -58,6 +61,7 @@
                 'position': playerPosition
             };
 
+            waitForDisprove();
             gameSocket.emit('make-suggestion', suggestion);
             $(makeSuggestionButton).prop('disabled', true);
             $(endTurnButton).prop('disabled', false);
@@ -65,6 +69,15 @@
         });
     };
 
+    var waitForDisprove = function () {
+        $('#close-suggest').prop('disabled', true);
+        $(suggestInfo).text('Waiting For Players to Disprove Suggestion');
+        $(suspectSelect).prop('disabled', true);
+        $(weaponSelect).prop('disabled', true);
+        $(confirmSuggest).prop('disabled', true);
+        $(confirmSuggest).text('');
+        $(confirmSuggest).append('<span class=\'' + loadingClass + '\'></span>');
+    };
 
     var init = function (socket) {
         gameSocket = socket;
@@ -78,6 +91,16 @@
         selectedRoom = roomNames[room];
         playerPosition = position;
         initRoomSelect();
+        resetModal();
+    };
+
+    var resetModal = function () {
+        $(confirmSuggest).children().remove();
+        $(confirmSuggest).text('Suggest');
+        $(confirmSuggest).prop('disabled', false);
+        $(suspectSelect).prop('disabled', false);
+        $(weaponSelect).prop('disabled', false);
+        $(suggestInfo).text('Make a suggestion now that you\'ve changed rooms before ending your turn');
     };
 
     var suggestion = {
