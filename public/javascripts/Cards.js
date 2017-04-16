@@ -31,7 +31,7 @@
     };
 
     var addExtraCardList = function () {
-        if (extraCards.length <= 0) {
+        if ( _.get(extraCards, 'length', 0) <= 0) {
             return;
         }
 
