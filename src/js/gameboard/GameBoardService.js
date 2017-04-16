@@ -1,6 +1,7 @@
 (function () {
     'use strict';
     var _ = require('lodash');
+    var boardUtils = require('./BoardUtils');
 
     var GAME_NAMESPACE = '/game';
     var gameNsp = {};
@@ -78,6 +79,22 @@
     var handleSuggestion = function (suggestion, socketId) {
         gameNsp.emit('game-status', {
             'message': 'Player ' + currentPlayer.playerNumber + ' suggests ' + suggestion.suspect + ' with the ' + suggestion.weapon + ' in the ' + suggestion.room
+        });
+        currentPlayer.position = suggestion.position;
+        movePlayerToRoom(suggestion.suspect, suggestion.room);
+        // Get disprovals
+    };
+
+    var movePlayerToRoom = function (character, room) {
+        var playerToMove = _.find(playerList, ['character', character]);
+
+        if (playerToMove === undefined) {
+            return;
+        }
+        var newPosition = boardUtils.findEmptyCellInRoom(room, playerToMove.position, playerList);
+        playerToMove.position = newPosition;
+        gameNsp.emit('mark-positions', {
+            'players': playerList
         });
     };
 

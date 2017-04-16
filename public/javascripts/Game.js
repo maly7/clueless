@@ -97,7 +97,7 @@
             var newRoom = getRoom(playerPosition);
             if (newRoom !== 'hallway' && newRoom !== playerRoom) {
                 enableSuggestion();
-                suggestion.setRoom(newRoom);
+                suggestion.setPlayerInfo(newRoom, playerPosition);
             }
         });
     };

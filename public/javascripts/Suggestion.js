@@ -22,6 +22,7 @@
     var weaponSelect = '#suggest-weapon';
     var confrimSuggest = '#confirm-suggest';
     var selectedRoom = '';
+    var playerPosition = '';
 
     var gameSocket = {};
 
@@ -50,7 +51,8 @@
             var suggestion = {
                 'suspect': $(suspectSelect).val(),
                 'weapon': $(weaponSelect).val(),
-                'room': selectedRoom
+                'room': selectedRoom,
+                'position': playerPosition
             };
 
             gameSocket.emit('make-suggestion', suggestion);
@@ -65,14 +67,15 @@
         registerSuggestButton();
     };
 
-    var setRoom = function (room) {
+    var setPlayerInfo = function (room, position) {
         selectedRoom = roomNames[room];
+        playerPosition = position;
         initRoomSelect();
     };
 
     var suggestion = {
         init: init,
-        setRoom: setRoom
+        setPlayerInfo: setPlayerInfo
     };
 
     module.exports = suggestion;
