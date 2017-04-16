@@ -74,7 +74,11 @@
     };
 
     var cellDoesNotContainEmpty = function (y, x) {
-        return $('#' + y + '-' + x).attr('class').indexOf('empty') < 0;
+        try {
+            return $('#' + y + '-' + x).attr('class').indexOf('empty') < 0;
+        } catch (err) {
+            return false;
+        }
     };
 
     var cellDoesNotContainCharacter = function (y, x) {
