@@ -4,6 +4,7 @@
     var cellUtils = require('./CellUtils');
     var cards = require('./Cards');
     var accusation = require('./Accusation');
+    var suggestion = require('./Suggestion');
     var _ = require('lodash');
 
     var welcomeModal = '#welcome-modal';
@@ -45,6 +46,13 @@
         $('#game-lost-close').click(function () {
             playerPosition = cellUtils.findNearestCellForPlayerOutOfGame(playerPosition);
             endTurn();
+        });
+    };
+
+    var registerMakeSuggestionButton = function () {
+        $(makeSuggestionButton).click(function () {
+            suggestion.init(gameSocket, getRoom(playerPosition));
+            $()
         });
     };
 
