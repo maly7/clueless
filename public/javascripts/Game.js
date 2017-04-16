@@ -10,6 +10,7 @@
     var welcomeModal = '#welcome-modal';
     var endTurnButton = '#end-turn';
     var makeSuggestionButton = '#make-suggestion';
+    var suggestionModal = '#suggestion-modal';
     var makeAccusationButton = '#make-accusation';
     var gameRunning = false;
     var gameSocket = {};
@@ -51,8 +52,7 @@
 
     var registerMakeSuggestionButton = function () {
         $(makeSuggestionButton).click(function () {
-            suggestion.init(gameSocket, getRoom(playerPosition));
-            $()
+            $(suggestionModal).modal('show');
         });
     };
 
@@ -78,6 +78,7 @@
     };
 
     var enableSuggestion = function () {
+        registerMakeSuggestionButton();
         return $(makeSuggestionButton).prop('disabled', false);
     };
 
@@ -96,6 +97,7 @@
             var newRoom = getRoom(playerPosition);
             if (newRoom !== 'hallway' && newRoom !== playerRoom) {
                 enableSuggestion();
+                suggestion.setRoom(newRoom);
             }
         });
     };
@@ -152,6 +154,7 @@
 
     var init = function (socket) {
         gameSocket = socket;
+        suggestion.init(gameSocket);
         listenToSocket();
         disableButtons();
         registerEndTurnButton();

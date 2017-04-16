@@ -1,5 +1,6 @@
 (function () {
     'use strict';
+    var _ = require('lodash');
 
     var suspects = ['Ms. Scarlet', 'Col. Mustard', 'Mrs. White', 'Rev. Green', 'Mrs. Peacock', 'Prof. Plum'];
     var weapons = ['Candlestick', 'Poison', 'Rope', 'Gloves', 'Horseshoe', 'Knife', 'Lead Pipe', 'Revolver', 'Wrench'];
@@ -14,6 +15,7 @@
 
     var initRoomSelect = function () {
         $(roomSelect).prop('disabled', true);
+        $(roomSelect).children().remove();
         $(roomSelect).append('<option>' + selectedRoom + '</option>');
     };
 
@@ -31,17 +33,21 @@
         });
     };
 
-    var init = function (socket, room) {
+    var init = function (socket) {
         gameSocket = socket;
-        selectedRoom = room;
 
-        initRoomSelect();
         initSuspectSelect();
         initWeaponSelect();
     };
 
+    var setRoom = function (room) {
+        selectedRoom = room;
+        initRoomSelect();
+    };
+
     var suggestion = {
-        init: init
+        init: init,
+        setRoom: setRoom
     };
 
     module.exports = suggestion;
