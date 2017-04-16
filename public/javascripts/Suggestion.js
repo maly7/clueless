@@ -28,7 +28,7 @@
     var initRoomSelect = function () {
         $(roomSelect).prop('disabled', true);
         $(roomSelect).children().remove();
-        $(roomSelect).append('<option>' + roomNames[selectedRoom] + '</option>');
+        $(roomSelect).append('<option>' + selectedRoom + '</option>');
     };
 
     var initSuspectSelect = function () {
@@ -53,7 +53,7 @@
     };
 
     var setRoom = function (room) {
-        selectedRoom = room;
+        selectedRoom = roomNames[room];
         initRoomSelect();
     };
 
