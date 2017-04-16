@@ -5,6 +5,18 @@
     var suspects = ['Ms. Scarlet', 'Col. Mustard', 'Mrs. White', 'Rev. Green', 'Mrs. Peacock', 'Prof. Plum'];
     var weapons = ['Candlestick', 'Poison', 'Rope', 'Gloves', 'Horseshoe', 'Knife', 'Lead Pipe', 'Revolver', 'Wrench'];
 
+    var roomNames = {
+        'study': 'Study',
+        'hall': 'Hall',
+        'lounge': 'Lounge',
+        'library': 'Library',
+        'billiard': 'Billiard Room',
+        'dining': 'Dining Room',
+        'conservatory': 'Conservatory',
+        'ballroom': 'Ballroom',
+        'kitchen': 'Kitchen'
+    };
+
     var suspectSelect = '#suggest-suspect';
     var roomSelect = '#suggest-room';
     var weaponSelect = '#suggest-weapon';
@@ -16,7 +28,7 @@
     var initRoomSelect = function () {
         $(roomSelect).prop('disabled', true);
         $(roomSelect).children().remove();
-        $(roomSelect).append('<option>' + selectedRoom + '</option>');
+        $(roomSelect).append('<option>' + roomNames[selectedRoom] + '</option>');
     };
 
     var initSuspectSelect = function () {
