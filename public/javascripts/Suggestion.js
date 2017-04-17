@@ -79,9 +79,16 @@
         $(confirmSuggest).append('<span class=\'' + loadingClass + '\'></span>');
     };
 
+    var listenToSocket = function () {
+        gameSocket.on('suggestion-false', function (data) {
+            // Display reason
+            // Make modal dismissable 
+        });
+    };
+
     var init = function (socket) {
         gameSocket = socket;
-
+        listenToSocket();
         initSuspectSelect();
         initWeaponSelect();
         registerSuggestButton();

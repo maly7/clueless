@@ -12,6 +12,7 @@
     var cardDealer = {};
     var solution = {};
     var extraCards = [];
+    var suggestionDisproved = false;
 
     var getNextPlayer = function () {
         currentPlayer = playerList[currentPlayerIndex];
@@ -82,7 +83,18 @@
         });
         currentPlayer.position = suggestion.position;
         movePlayerToRoom(suggestion.suspect, suggestion.room);
-        // Get disprovals
+        
+        var playerIndex = currentPlayerIndex;
+        suggestionDisproved = false;
+
+        do {
+            if (playerIndex + 1 >= playerList.length) {
+                playerIndex = 0;
+            } else {
+                playerIndex++;
+            }
+            gameNsp.clients().sockets[playerList[playerIndex].id].emit('disprove-suggestion', suggestion);
+        } while (!suggestionDisproved && playerIndex != currentPlayerIndex);
     };
 
     var movePlayerToRoom = function (character, room) {
@@ -144,6 +156,17 @@
             socket.on('make-suggestion', function (data) {
                 console.log('Player with id ' + socket.id + ' suggests ' + data.suspect + ' with the ' + data.weapon + ' in the ' + data.room);
                 handleSuggestion(data, socket.id);
+            });
+            socket.on('suggestion-disproved', function (data) {
+                suggestionDisproved = true;
+                var playerNumber = userService.getUserFromSocketId(socket.id);
+                gameNsp.emit('game-status', {
+                    'message': 'Player ' + playerNumber + ' proved the suggestion false with their card: ' + data.reason
+                });
+                gameNsp.clients().sockets[GAME_NAMESPACE + '#' + currentPlayer.id].emit('suggestion-false', {
+                    'reason': data.reason,
+                    'player': playerNumber
+                });
             });
         });
     };

@@ -131,6 +131,10 @@
             cards.init(data.cards, data.extraCards);
             accusation.init(gameSocket, cards.getSortedPlayerCards(), data.extraCards);
         });
+        
+        gameSocket.on('disprove-suggestion', function (data) {
+            //TODO: init disproval modal
+        });
         gameSocket.on('game-lost', function (data) {
             $('#solution-text').append('<p>Unfortunately the correct solution is ' + data.suspect + ' with the ' + data.weapon + ' in the ' + data.room + '.</p>');
             $('#game-lost-modal').modal('show');
