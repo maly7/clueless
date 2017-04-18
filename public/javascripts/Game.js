@@ -5,6 +5,7 @@
     var cards = require('./Cards');
     var accusation = require('./Accusation');
     var suggestion = require('./Suggestion');
+    var disprove = require('./Disprove');
     var _ = require('lodash');
 
     var welcomeModal = '#welcome-modal';
@@ -133,7 +134,8 @@
         });
         
         gameSocket.on('disprove-suggestion', function (data) {
-            //TODO: init disproval modal
+            var hand = cards.getSortedPlayerCards();
+            disprove.init(gameSocket, hand, data);
         });
         gameSocket.on('game-lost', function (data) {
             $('#solution-text').append('<p>Unfortunately the correct solution is ' + data.suspect + ' with the ' + data.weapon + ' in the ' + data.room + '.</p>');

@@ -8,11 +8,13 @@
     var playerList = [];
     var gameRunning = false;
     var currentPlayerIndex = 0;
+    var suggestionPlayerIndex = 0;
     var currentPlayer = {};
     var cardDealer = {};
     var solution = {};
     var extraCards = [];
     var suggestionDisproved = false;
+    var currentSuggestion = {};
 
     var getNextPlayer = function () {
         currentPlayer = playerList[currentPlayerIndex];
@@ -83,18 +85,33 @@
         });
         currentPlayer.position = suggestion.position;
         movePlayerToRoom(suggestion.suspect, suggestion.room);
-        
-        var playerIndex = currentPlayerIndex;
-        suggestionDisproved = false;
 
-        do {
-            if (playerIndex + 1 >= playerList.length) {
-                playerIndex = 0;
-            } else {
-                playerIndex++;
-            }
-            gameNsp.clients().sockets[playerList[playerIndex].id].emit('disprove-suggestion', suggestion);
-        } while (!suggestionDisproved && playerIndex != currentPlayerIndex);
+        suggestionPlayerIndex = currentPlayerIndex;
+        suggestionDisproved = false;
+        currentSuggestion = suggestion;
+
+        notifyPlayerToDisproveSuggestion();
+    };
+
+    var notifyPlayerToDisproveSuggestion = function () {
+        if (suggestionDisproved) {
+            return;
+        }
+
+        if (suggestionPlayerIndex === currentPlayerIndex) {
+            gameNsp.clients().sockets[GAME_NAMESPACE + '#' + currentPlayer.id].emit('no-player-could-disprove', {});
+            gameNsp.emit('game-status', {
+                'message': 'No players were able to disprove the suggestion'
+            });
+        }
+
+
+        if (suggestionPlayerIndex + 1 >= playerList.length) {
+            suggestionPlayerIndex = 0;
+        } else {
+            suggestionPlayerIndex++;
+        }
+        gameNsp.clients().sockets[GAME_NAMESPACE + '#' + playerList[suggestionPlayerIndex].id].emit('disprove-suggestion', currentSuggestion);
     };
 
     var movePlayerToRoom = function (character, room) {
@@ -156,6 +173,9 @@
             socket.on('make-suggestion', function (data) {
                 console.log('Player with id ' + socket.id + ' suggests ' + data.suspect + ' with the ' + data.weapon + ' in the ' + data.room);
                 handleSuggestion(data, socket.id);
+            });
+            socket.on('unable-to-disprove', function (data) {
+                notifyPlayerToDisproveSuggestion();
             });
             socket.on('suggestion-disproved', function (data) {
                 suggestionDisproved = true;
