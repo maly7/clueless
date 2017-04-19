@@ -1,0 +1,55 @@
+.navlist {
+    position: relative;
+    text-align: center;
+}
+
+.navlist li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: absolute;
+    top: 0;
+}
+
+.navlist li, .navlist a {
+    height: 256px;
+    width: 176px;
+    display: block;
+}
+
+.missscarlet {
+    left: 0px;
+    width: 46px;
+    background: url('../../resources/player_icons.jpg') 0 0;
+}
+
+.colmustard {
+    left: 200px;
+    width: 46px;
+    background: url('../../resources/player_icons.jpg') -176px 0;
+}
+
+.mrswhite {
+    left: 400px;
+    width: 43px;
+    background: url('../../resources/player_icons.jpg') -352px 0;
+}
+
+.mrgreen {
+    left: 600px;
+    width: 43px;
+    background: url('../../resources/player_icons.jpg') -528px 0;
+}
+
+.mrspeacock {
+    left: 800px;
+    width: 43px;
+    background: url('../../resources/player_icons.jpg') -704px 0;
+}
+
+.profplum {
+    left: 1000px;
+    width: 43px;
+    background: url('../../resources/player_icons.jpg') 0 -256px;
+}
+
