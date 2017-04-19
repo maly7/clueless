@@ -1,0 +1,16 @@
+div#disprove-suggestion-modal(class='modal fade' role='dialog')
+    div(class='modal-dialog')
+        div(class='modal-content')
+            div(class='modal-header')
+                h4(class='modal-title') Disprove the Suggestion
+            div(class='modal-body')
+                div(class='form-group')
+                    label(for='card-select') Select a Card
+                    select#card-select(class='form-control')
+            div(class='modal-footer')
+                div#disprove-hint(class='row text-center')
+                div(class='row')
+                    div(class='col-md-6')
+                        button#confirm-disprove(class='btn btn-success pull-left') Disprove
+                    div(class='col-md-6')
+                        button#cannot-disprove(class='btn btn-secondary') Unable to Disprove

@@ -4,18 +4,24 @@
     var cellUtils = require('./CellUtils');
     var cards = require('./Cards');
     var accusation = require('./Accusation');
+    var suggestion = require('./Suggestion');
+    var disprove = require('./Disprove');
+    var _ = require('lodash');
 
     var welcomeModal = '#welcome-modal';
     var endTurnButton = '#end-turn';
     var makeSuggestionButton = '#make-suggestion';
+    var suggestionModal = '#suggestion-modal';
     var makeAccusationButton = '#make-accusation';
     var gameRunning = false;
     var gameSocket = {};
 
     var playerClasses = ['mustard', 'scarlet', 'white', 'green', 'peacock', 'plum'];
+    var rooms = ['hallway', 'study', 'lounge', 'library', 'billiard', 'dining', 'conservatory', 'ballroom', 'kitchen', 'hall'];
 
     var playerClass = '';
     var playerPosition = '';
+    var playerRoom = '';
 
     var secretPassageMap = {
         '2-8': ['8-1', '9-1', '9-2', '8-2'],
@@ -45,6 +51,12 @@
         });
     };
 
+    var registerMakeSuggestionButton = function () {
+        $(makeSuggestionButton).click(function () {
+            $(suggestionModal).modal('show');
+        });
+    };
+
     var endTurn = function () {
         gameSocket.emit('end-turn', {
             position: playerPosition
@@ -62,9 +74,14 @@
 
     var enableButtons = function () {
         $(endTurnButton).prop('disabled', false);
-        $(makeSuggestionButton).prop('disabled', false);
         $(makeAccusationButton).prop('disabled', false);
         return;
+    };
+
+    var enableSuggestion = function () {
+        registerMakeSuggestionButton();
+        $(endTurnButton).prop('disabled', true);
+        return $(makeSuggestionButton).prop('disabled', false);
     };
 
     var registerCellClicks = function () {
@@ -78,12 +95,22 @@
             } else {
                 playerPosition = id;
             }
+
+            var newRoom = getRoom(playerPosition);
+            if (newRoom !== 'hallway' && newRoom !== playerRoom) {
+                enableSuggestion();
+                suggestion.setPlayerInfo(newRoom, playerPosition);
+            }
         });
     };
 
     var startPlayerTurn = function (position) {
         cellUtils.makeCellsClickable(position);
         registerCellClicks();
+    };
+
+    var getRoom = function (position) {
+        return _.intersection($('#' + position).attr('class').split(' '), rooms)[0];
     };
 
     var listenToSocket = function () {
@@ -96,6 +123,7 @@
             startPlayerTurn(data.position);
             playerClass = data.cssClass;
             playerPosition = data.position;
+            playerRoom = getRoom(playerPosition);
         });
         gameSocket.on('game-status', function (data) {
             messages.addMessage(data.message);
@@ -103,6 +131,11 @@
         gameSocket.on('cards', function (data) {
             cards.init(data.cards, data.extraCards);
             accusation.init(gameSocket, cards.getSortedPlayerCards(), data.extraCards);
+        });
+        
+        gameSocket.on('disprove-suggestion', function (data) {
+            var hand = cards.getSortedPlayerCards();
+            disprove.init(gameSocket, hand, data);
         });
         gameSocket.on('game-lost', function (data) {
             $('#solution-text').append('<p>Unfortunately the correct solution is ' + data.suspect + ' with the ' + data.weapon + ' in the ' + data.room + '.</p>');
@@ -128,6 +161,7 @@
 
     var init = function (socket) {
         gameSocket = socket;
+        suggestion.init(gameSocket);
         listenToSocket();
         disableButtons();
         registerEndTurnButton();

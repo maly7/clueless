@@ -1,0 +1,23 @@
+div#suggestion-modal(class='modal fade' role='dialog')
+    div(class='modal-dialog')
+        div(class='modal-content')
+            div(class='modal-header')
+                h4(class='modal-title') Make a Suggestion
+            div(class='modal-body')
+                div(class='form-group')
+                    label(for='suspect-select') Suspect
+                    select#suggest-suspect(class='form-control')
+                div(class='form-group')
+                    label(for='room-select') Room
+                    select#suggest-room(class='form-control')
+                div(class='form-group')
+                    label(for='weapon-select') Weapon
+                    select#suggest-weapon(class='form-control')
+            div(class='modal-footer')
+                div(class='row text-center')
+                    span#suggest-info(class='col-md-12 text') Make a suggestion now that you've changed rooms before ending your turn
+                div(class='row')
+                    div(class='col-md-6')
+                        button#confirm-suggest(class='btn btn-primary pull-left') Suggest
+                    div(class='col-md-6')
+                        button#close-suggest(class='btn btn-secondary' data-dismiss='modal') Close

@@ -4,13 +4,13 @@
 
     var suspects = ['Ms. Scarlet', 'Col. Mustard', 'Mrs. White', 'Rev. Green', 'Mrs. Peacock', 'Prof. Plum'];
     var weapons = ['Candlestick', 'Poison', 'Rope', 'Gloves', 'Horseshoe', 'Knife', 'Lead Pipe', 'Revolver', 'Wrench'];
-    var rooms = ['Kitchen', 'Ballroom', 'Conservatory', 'Billiard Room', 'Library', 'Study', 'Hall', 'Lounge', 'Dining Room', 'Cellar'];
+    var rooms = ['Kitchen', 'Ballroom', 'Conservatory', 'Billiard Room', 'Library', 'Study', 'Hall', 'Lounge', 'Dining Room'];
 
     var gameSocket = {};
     var playerCards = [];
     var extraCards = [];
 
-    var playerSuspects = []
+    var playerSuspects = [];
     var playerWeapons = [];
     var playerRooms = [];
 
@@ -31,7 +31,7 @@
     };
 
     var addExtraCardList = function () {
-        if (extraCards.length <= 0) {
+        if ( _.get(extraCards, 'length', 0) <= 0) {
             return;
         }
 
@@ -56,7 +56,7 @@
             'suspects': playerSuspects,
             'weapons': playerWeapons,
             'rooms': playerRooms
-        }
+        };
     };
 
     var init = function (hand, remainingCards) {
