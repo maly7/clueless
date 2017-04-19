@@ -48,6 +48,7 @@
             $(cardSelect).children().remove();
             $(cardSelect).prop('disabled', true);
         } else {
+            $(cardSelect).prop('disabled', false);
             $(confirmDisproveButton).prop('disabled', false);
             $(cannotDisproveButton).prop('disabled', true);
             $(disproveHint).text('Please select a card to use in disproving the suggestion');
