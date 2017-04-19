@@ -2,7 +2,7 @@
     'use strict';
     var _ = require('lodash');
 
-    var disroveModal = '#disprove-suggestion-modal';
+    var disproveModal = '#disprove-suggestion-modal';
     var cardSelect = '#card-select';
     var confirmDisproveButton = '#confirm-disprove';
     var cannotDisproveButton = '#cannot-disprove';
@@ -15,12 +15,16 @@
     var registerButtons = function () {
         $(cannotDisproveButton).click(function () {
             gameSocket.emit('unable-to-disprove', {});
+            $(disproveModal).modal('hide');
+            $('.modal-backdrop').remove();
         });
         $(confirmDisproveButton).click(function () {
             var disprovalCard = $(cardSelect).val();
             gameSocket.emit('suggestion-disproved', {
                 'reason': disprovalCard
             });
+            $(disproveModal).modal('hide');
+            $('.modal-backdrop').remove();
         });
     };
 
@@ -37,7 +41,7 @@
         addSuggestedCard(possibleCards, suggestion.room);
         addSuggestedCard(possibleCards, suggestion.suspect);
 
-        if (_.get(possibleCards, 'length', 0) > 0) {
+        if (_.get(possibleCards, 'length', 0) <= 0) {
             $(confirmDisproveButton).prop('disabled', true);
             $(cannotDisproveButton).prop('disabled', false);
             $(disproveHint).text('Looks like you don\'t have any of the cards');
@@ -52,12 +56,17 @@
                 $(cardSelect).append('<option>' + card + '</option>');
             });
         }
+
+        $(disproveModal).modal('show');
     };
 
     var init = function (socket, cards, suggestedMurder) {
         gameSocket = socket;
         playersHand = cards.suspects.concat(cards.weapons).concat(cards.rooms);
         suggestion = suggestedMurder;
+
+        registerButtons();
+        displayModal();
     };
 
     var disprove = {

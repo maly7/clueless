@@ -18,6 +18,7 @@
 
     var getNextPlayer = function () {
         currentPlayer = playerList[currentPlayerIndex];
+        currentPlayer.index = currentPlayerIndex;
         if (currentPlayerIndex + 1 >= playerList.length) {
             currentPlayerIndex = 0;
         } else {
@@ -90,7 +91,7 @@
         suggestionDisproved = false;
         currentSuggestion = suggestion;
 
-        notifyPlayerToDisproveSuggestion();
+        gameNsp.clients().sockets[GAME_NAMESPACE + '#' + playerList[suggestionPlayerIndex].id].emit('disprove-suggestion', currentSuggestion);
     };
 
     var notifyPlayerToDisproveSuggestion = function () {
@@ -98,19 +99,20 @@
             return;
         }
 
-        if (suggestionPlayerIndex === currentPlayerIndex) {
-            gameNsp.clients().sockets[GAME_NAMESPACE + '#' + currentPlayer.id].emit('no-player-could-disprove', {});
-            gameNsp.emit('game-status', {
-                'message': 'No players were able to disprove the suggestion'
-            });
-        }
-
-
         if (suggestionPlayerIndex + 1 >= playerList.length) {
             suggestionPlayerIndex = 0;
         } else {
             suggestionPlayerIndex++;
         }
+
+        if (suggestionPlayerIndex === currentPlayer.index) {
+            gameNsp.clients().sockets[GAME_NAMESPACE + '#' + currentPlayer.id].emit('no-player-could-disprove', {});
+            gameNsp.emit('game-status', {
+                'message': 'No players were able to disprove the suggestion'
+            });
+            return;
+        }
+
         gameNsp.clients().sockets[GAME_NAMESPACE + '#' + playerList[suggestionPlayerIndex].id].emit('disprove-suggestion', currentSuggestion);
     };
 
@@ -175,11 +177,15 @@
                 handleSuggestion(data, socket.id);
             });
             socket.on('unable-to-disprove', function (data) {
+                var playerNumber = userService.getUserFromSocketId(socket.id).playerNumber;
+                gameNsp.emit('game-status', {
+                    'message': 'Player ' + playerNumber + ' was unable to disprove the suggestion'
+                });
                 notifyPlayerToDisproveSuggestion();
             });
             socket.on('suggestion-disproved', function (data) {
                 suggestionDisproved = true;
-                var playerNumber = userService.getUserFromSocketId(socket.id);
+                var playerNumber = userService.getUserFromSocketId(socket.id).playerNumber;
                 gameNsp.emit('game-status', {
                     'message': 'Player ' + playerNumber + ' proved the suggestion false with their card: ' + data.reason
                 });

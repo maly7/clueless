@@ -24,6 +24,7 @@
     var roomSelect = '#suggest-room';
     var weaponSelect = '#suggest-weapon';
     var confirmSuggest = '#confirm-suggest';
+    var closeSuggest = '#close-suggest';
     var suggestInfo = '#suggest-info';
     var selectedRoom = '';
     var playerPosition = '';
@@ -70,7 +71,7 @@
     };
 
     var waitForDisprove = function () {
-        $('#close-suggest').prop('disabled', true);
+        $(closeSuggest).prop('disabled', true);
         $(suggestInfo).text('Waiting For Players to Disprove Suggestion');
         $(suspectSelect).prop('disabled', true);
         $(weaponSelect).prop('disabled', true);
@@ -81,8 +82,18 @@
 
     var listenToSocket = function () {
         gameSocket.on('suggestion-false', function (data) {
-            // Display reason
-            // Make modal dismissable 
+            $(suggestInfo).text('Your suggestion was disproved by Player ' + data.player + ' because they have the ' + data.reason + ' card.');
+
+            $(confirmSuggest).text('Suggest');
+            $(confirmSuggest).prop('disabled', true);
+            $(closeSuggest).prop('disabled', false);
+        });
+        gameSocket.on('no-player-could-disprove', function (data) {
+            $(suggestInfo).text('No other players could disprove the suggestion');
+
+            $(confirmSuggest).text('Suggest');
+            $(confirmSuggest).prop('disabled', true);
+            $(closeSuggest).prop('disabled', false);
         });
     };
 
