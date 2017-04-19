@@ -10,7 +10,7 @@
     var playerCards = [];
     var extraCards = [];
 
-    var playerSuspects = []
+    var playerSuspects = [];
     var playerWeapons = [];
     var playerRooms = [];
 
@@ -56,7 +56,7 @@
             'suspects': playerSuspects,
             'weapons': playerWeapons,
             'rooms': playerRooms
-        }
+        };
     };
 
     var init = function (hand, remainingCards) {
