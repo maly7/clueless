@@ -107,7 +107,7 @@
             suggestionPlayerIndex++;
         }
 
-        if (suggestionPlayerIndex === currentPlayer.index || playersQuestioned === playerList.length - 1) {
+        if (suggestionPlayerIndex === currentPlayer.index || playersQuestioned === playerList.length) {
             gameNsp.clients().sockets[GAME_NAMESPACE + '#' + currentPlayer.id].emit('no-player-could-disprove', {});
             gameNsp.emit('game-status', {
                 'message': 'No players were able to disprove the suggestion'
