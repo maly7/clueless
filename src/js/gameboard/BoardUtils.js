@@ -20,6 +20,10 @@
     };
 
     var findFirstCellWithoutCharacter = function (cellList, currentPos, playerList) {
+        if (cellList.indexOf(currentPos) >= 0) {
+            return currentPos;
+        }
+
         for (var i = 0; i < cellList.length; i++) {
             var pos = cellList[i];
             if (_.find(playerList, ['position', pos]) === undefined) {
