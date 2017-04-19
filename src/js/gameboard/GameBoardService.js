@@ -15,6 +15,7 @@
     var extraCards = [];
     var suggestionDisproved = false;
     var currentSuggestion = {};
+    var playersQuestioned = 0;
 
     var getNextPlayer = function () {
         currentPlayer = playerList[currentPlayerIndex];
@@ -90,6 +91,7 @@
         suggestionPlayerIndex = currentPlayerIndex;
         suggestionDisproved = false;
         currentSuggestion = suggestion;
+        playersQuestioned = 1;
 
         gameNsp.clients().sockets[GAME_NAMESPACE + '#' + playerList[suggestionPlayerIndex].id].emit('disprove-suggestion', currentSuggestion);
     };
@@ -105,7 +107,7 @@
             suggestionPlayerIndex++;
         }
 
-        if (suggestionPlayerIndex === currentPlayer.index) {
+        if (suggestionPlayerIndex === currentPlayer.index || playersQuestioned === playerList.length - 1) {
             gameNsp.clients().sockets[GAME_NAMESPACE + '#' + currentPlayer.id].emit('no-player-could-disprove', {});
             gameNsp.emit('game-status', {
                 'message': 'No players were able to disprove the suggestion'
@@ -114,6 +116,7 @@
         }
 
         gameNsp.clients().sockets[GAME_NAMESPACE + '#' + playerList[suggestionPlayerIndex].id].emit('disprove-suggestion', currentSuggestion);
+        playersQuestioned++;
     };
 
     var movePlayerToRoom = function (character, room) {
