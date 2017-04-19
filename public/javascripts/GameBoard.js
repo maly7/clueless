@@ -16,7 +16,7 @@
                 for (var j = 0; j <= 10; j++) {
                     var cssClass = boardStyling.lookupStyle(i, j);
                     var id = i + '-' + j;
-                    tableHtml += '<td id=\'' + id + '\' class=\'board-column ' + cssClass + '\'>' + i + ', ' + j + '</td>';
+                    tableHtml += '<td id=\'' + id + '\' class=\'board-column ' + cssClass + '\'></td>';
                 }
                 tableHtml += '</tr>';
             }
